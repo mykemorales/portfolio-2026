@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Process Owner + Record Presence — Mike Morales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --digital-sand: #E9DDC3;
+      --starlight: #F0D3A0;
+      --sunlight: #FFD375;
+      --ember: #F08669;
+      --silverlight: #F1EFEB;
+      --charcoal: #1F1F1F;
+      --black-hole: #1B1918;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ::selection {
+      background-color: #84724B;
+      color: #fff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black-hole);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 26px 48px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: var(--black-hole);
+      transform: translateY(0);
+      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    nav.nav--hidden {
+      transform: translateY(-110%);
+    }
+
+    body {
+      padding-top: 72px;
+    }
+
+    .logo {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--digital-sand);
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--starlight);
+      text-decoration: none;
+      background-image: linear-gradient(var(--ember), var(--ember));
+      background-position: 0 52%;
+      background-repeat: no-repeat;
+      background-size: 0% 1.5px;
+      transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background-size 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .nav-links a:hover {
+      color: var(--ember);
+      background-size: 100% 1.5px;
+    }
+
+    /* ── CASE STUDY CONTAINER ── */
+    .cs-container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ── CASE STUDY HEADER ── */
+    .cs-header {
+      padding: 36px 0 0;
+    }
+
+    .cs-eyebrow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .cs-company {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.38);
+      letter-spacing: 0.02em;
+    }
+
+    .cs-date {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.38);
+      letter-spacing: 0.02em;
+    }
+
+    .cs-title {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 40px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 30px;
+    }
+
+    .cs-hero-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #1a1918;
+    }
+
+    .cs-hero-image svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* ── CASE STUDY BODY (two-column) ── */
+    .cs-body {
+      display: flex;
+      gap: 72px;
+      padding: 52px 0 80px;
+      align-items: flex-start;
+    }
+
+    .cs-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cs-sidebar {
+      width: 130px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 28px;
+    }
+
+    /* ── SIDEBAR NAV ── */
+    .cs-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .cs-nav a {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.32);
+      transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .cs-nav a:hover {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .cs-nav a.active {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .cs-nav a.active::before {
+      content: '—';
+      color: var(--sunlight);
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    /* ── CONTENT SECTIONS ── */
+    .cs-section {
+      margin-bottom: 56px;
+      scroll-margin-top: 40px;
+    }
+
+    .cs-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .cs-section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 20px;
+      letter-spacing: 0.01em;
+    }
+
+    .cs-section p {
+      font-size: 13px;
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.56);
+      margin-bottom: 14px;
+    }
+
+    .cs-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ── OVERVIEW GRID ── */
+    .overview-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .overview-item__label {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.82);
+      margin-bottom: 3px;
+    }
+
+    .overview-item__value {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.52);
+      line-height: 1.6;
+    }
+
+    /* ── PIVOT / SUB-HEADINGS ── */
+    .cs-pivot {
+      margin-top: 36px;
+    }
+
+    .cs-pivot-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.78);
+      margin-bottom: 16px;
+    }
+
+    /* ── IMAGES ── */
+    .cs-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #1a1918;
+      margin: 28px 0;
+    }
+
+    .cs-image svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .cs-image:first-of-type {
+      margin-top: 24px;
+    }
+
+    /* ── CASE FOOTER ── */
+    .cs-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 32px 0 88px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cs-footer a {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.38);
+      text-decoration: none;
+      background-image: linear-gradient(var(--ember), var(--ember));
+      background-position: 0 52%;
+      background-repeat: no-repeat;
+      background-size: 0% 1.5px;
+      transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background-size 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .cs-footer a:hover {
+      color: var(--ember);
+      background-size: 100% 1.5px;
+    }
+
+    .cs-footer .next-cs {
+      color: var(--sunlight);
+    }
+
+    .cs-footer .next-cs:hover {
+      color: var(--ember);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">mikemorales</a>
+    <ul class="nav-links">
+      <li><a href="index.html#work">work</a></li>
+      <li><a href="#">resume</a></li>
+      <li><a href="index.html#contact">say hello</a></li>
+    </ul>
+  </nav>
+
+  <div class="cs-container">
+
+    <!-- HEADER -->
+    <header class="cs-header">
+      <div class="cs-eyebrow">
+        <span class="cs-company">McKinsey &amp; Company · VG&amp;M</span>
+        <span class="cs-date">Q3 2025</span>
+      </div>
+      <h1 class="cs-title">Process Owner + Record Presence</h1>
+
+      <!-- Hero image: final solution list view -->
+      <div class="cs-hero-image">
+        <svg viewBox="0 0 900 506" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <rect width="900" height="506" fill="#1d1c1a"/>
+          <!-- Left sidebar -->
+          <rect width="190" height="506" fill="#161514"/>
+          <rect x="18" y="26" width="88" height="10" rx="2" fill="#242220"/>
+          <rect x="18" y="46" width="50" height="8" rx="2" fill="#242220"/>
+          <rect x="18" y="66" width="150" height="8" rx="2" fill="#222120"/>
+          <rect x="18" y="80" width="130" height="8" rx="2" fill="#222120"/>
+          <rect x="18" y="94" width="140" height="8" rx="2" fill="#222120"/>
+          <rect x="18" y="108" width="118" height="8" rx="2" fill="#222120"/>
+          <rect x="18" y="130" width="88" height="8" rx="2" fill="#2a2825"/>
+          <rect x="18" y="144" width="154" height="8" rx="2" fill="#222120"/>
+          <rect x="18" y="158" width="136" height="8" rx="2" fill="#222120"/>
+          <rect x="18" y="172" width="120" height="8" rx="2" fill="#222120"/>
+          <rect x="18" y="186" width="144" height="8" rx="2" fill="#222120"/>
+          <!-- Top header -->
+          <rect x="190" y="0" width="710" height="44" fill="#1e1d1b"/>
+          <rect x="208" y="15" width="160" height="13" rx="2" fill="#282624"/>
+          <rect x="794" y="13" width="88" height="18" rx="3" fill="#2d4b3f"/>
+          <!-- Table column headers -->
+          <rect x="190" y="44" width="710" height="30" fill="#23211f"/>
+          <rect x="208" y="53" width="64" height="8" rx="2" fill="#343230"/>
+          <rect x="320" y="53" width="56" height="8" rx="2" fill="#343230"/>
+          <rect x="440" y="53" width="78" height="8" rx="2" fill="#FFD375" fill-opacity="0.55"/>
+          <rect x="578" y="53" width="56" height="8" rx="2" fill="#343230"/>
+          <rect x="700" y="53" width="52" height="8" rx="2" fill="#343230"/>
+          <rect x="800" y="53" width="60" height="8" rx="2" fill="#343230"/>
+          <!-- Row 1 (active/selected) -->
+          <rect x="190" y="74" width="710" height="30" fill="#252220"/>
+          <rect x="208" y="83" width="88" height="8" rx="2" fill="#353330"/>
+          <rect x="320" y="83" width="64" height="8" rx="2" fill="#353330"/>
+          <rect x="440" y="81" width="108" height="11" rx="2" fill="#FFD375" fill-opacity="0.14"/>
+          <rect x="444" y="84" width="80" height="5" rx="2" fill="#FFD375" fill-opacity="0.55"/>
+          <rect x="578" y="81" width="64" height="11" rx="10" fill="#2d4b3f"/>
+          <!-- Row 2 -->
+          <rect x="190" y="104" width="710" height="1" fill="#252321"/>
+          <rect x="208" y="114" width="104" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="320" y="114" width="56" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="578" y="112" width="64" height="11" rx="10" fill="#3d2e2d"/>
+          <!-- Row 3 -->
+          <rect x="190" y="132" width="710" height="1" fill="#252321"/>
+          <rect x="208" y="142" width="80" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="320" y="142" width="72" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="440" y="140" width="108" height="11" rx="2" fill="#FFD375" fill-opacity="0.14"/>
+          <rect x="444" y="143" width="92" height="5" rx="2" fill="#FFD375" fill-opacity="0.55"/>
+          <rect x="578" y="140" width="64" height="11" rx="10" fill="#2d4b3f"/>
+          <!-- Row 4 -->
+          <rect x="190" y="160" width="710" height="1" fill="#252321"/>
+          <rect x="208" y="170" width="96" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="320" y="170" width="48" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="440" y="168" width="108" height="11" rx="2" fill="#FFD375" fill-opacity="0.14"/>
+          <rect x="444" y="171" width="68" height="5" rx="2" fill="#FFD375" fill-opacity="0.55"/>
+          <!-- Row 5 -->
+          <rect x="190" y="188" width="710" height="1" fill="#252321"/>
+          <rect x="208" y="198" width="84" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="320" y="198" width="76" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="578" y="196" width="64" height="11" rx="10" fill="#2d4b3f"/>
+          <!-- Row 6 -->
+          <rect x="190" y="216" width="710" height="1" fill="#252321"/>
+          <rect x="208" y="226" width="90" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="320" y="226" width="62" height="8" rx="2" fill="#2e2c2a"/>
+          <rect x="440" y="224" width="108" height="11" rx="2" fill="#FFD375" fill-opacity="0.14"/>
+          <rect x="444" y="227" width="76" height="5" rx="2" fill="#FFD375" fill-opacity="0.55"/>
+          <rect x="578" y="224" width="64" height="11" rx="10" fill="#2d4b3f"/>
+        </svg>
+      </div>
+    </header>
+
+    <!-- BODY (content + sidebar) -->
+    <div class="cs-body">
+
+      <main class="cs-main">
+
+        <!-- OVERVIEW -->
+        <section class="cs-section" id="overview">
+          <p class="cs-section-title">Overview</p>
+          <div class="overview-grid">
+            <div class="overview-item">
+              <p class="overview-item__label">Role</p>
+              <p class="overview-item__value">Lead/Sole Product Designer &amp; Researcher</p>
+            </div>
+            <div class="overview-item">
+              <p class="overview-item__label">Team</p>
+              <p class="overview-item__value">1 PM, 1 Tech Lead, 4 Developers</p>
+            </div>
+            <div class="overview-item">
+              <p class="overview-item__label">Timeline</p>
+              <p class="overview-item__value">4 weeks | 2 sprints</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROBLEM -->
+        <section class="cs-section" id="problem">
+          <p class="cs-section-title">Problem</p>
+          <p>Post-MVP release of GlobalWorkflow, intake colleagues had no way of knowing whether a colleague had already begun processing a request which led to a spike in duplicate handling across a platform processing on average 130,000 requests per month.</p>
+        </section>
+
+        <!-- APPROACH -->
+        <section class="cs-section" id="approach">
+          <p class="cs-section-title">Approach</p>
+          <p>My initial approach centred on a live record presence indicator component displaying avatars on any Jobsheet being viewed by more than one intake colleague simultaneously. It solved part of the problem: colleagues inside a Jobsheet could now see each other.</p>
+          <p>But the more I observed how intake colleagues actually worked, the clearer it became that the real collision was happening earlier — at the list view level, before anyone had even opened a request.</p>
+
+          <!-- Approach image: early avatar concept in list view -->
+          <div class="cs-image">
+            <svg viewBox="0 0 720 405" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <rect width="720" height="405" fill="#1d1c1a"/>
+              <rect width="160" height="405" fill="#161514"/>
+              <rect x="18" y="24" width="80" height="9" rx="2" fill="#242220"/>
+              <rect x="18" y="44" width="124" height="7" rx="2" fill="#222120"/>
+              <rect x="18" y="58" width="108" height="7" rx="2" fill="#222120"/>
+              <rect x="18" y="72" width="116" height="7" rx="2" fill="#222120"/>
+              <!-- header -->
+              <rect x="160" y="0" width="560" height="40" fill="#1e1d1b"/>
+              <rect x="176" y="14" width="140" height="12" rx="2" fill="#282624"/>
+              <!-- table headers -->
+              <rect x="160" y="40" width="560" height="28" fill="#23211f"/>
+              <rect x="176" y="49" width="58" height="7" rx="2" fill="#343230"/>
+              <rect x="286" y="49" width="52" height="7" rx="2" fill="#343230"/>
+              <rect x="400" y="49" width="44" height="7" rx="2" fill="#343230"/>
+              <!-- "Viewers" column header -->
+              <rect x="490" y="49" width="52" height="7" rx="2" fill="#555350"/>
+              <rect x="590" y="49" width="54" height="7" rx="2" fill="#343230"/>
+              <!-- Row 1 — with avatars in "Viewers" column (the problem) -->
+              <rect x="160" y="68" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="78" width="84" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="78" width="60" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="76" width="56" height="10" rx="10" fill="#2d4b3f"/>
+              <!-- avatars: 2 colored circles -->
+              <circle cx="502" cy="81" r="9" fill="#FFD375" fill-opacity="0.7"/>
+              <circle cx="514" cy="81" r="9" fill="#F08669" fill-opacity="0.7"/>
+              <!-- Row 2 -->
+              <rect x="160" y="96" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="106" width="100" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="106" width="52" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="104" width="56" height="10" rx="10" fill="#3d2e2d"/>
+              <!-- single avatar -->
+              <circle cx="502" cy="109" r="9" fill="#E9DDC3" fill-opacity="0.7"/>
+              <!-- Row 3 -->
+              <rect x="160" y="124" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="134" width="76" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="134" width="68" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="132" width="56" height="10" rx="10" fill="#2d4b3f"/>
+              <!-- 3 avatars -->
+              <circle cx="502" cy="137" r="9" fill="#F0D3A0" fill-opacity="0.7"/>
+              <circle cx="514" cy="137" r="9" fill="#F08669" fill-opacity="0.6"/>
+              <circle cx="526" cy="137" r="9" fill="#FFD375" fill-opacity="0.6"/>
+              <!-- Row 4 — no avatars -->
+              <rect x="160" y="152" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="162" width="92" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="162" width="46" height="7" rx="2" fill="#2e2c2a"/>
+              <!-- annotation bubble showing the problem -->
+              <rect x="466" y="68" width="200" height="70" rx="6" fill="#1a1918" stroke="#F08669" stroke-width="1" stroke-opacity="0.6"/>
+              <rect x="478" y="80" width="120" height="7" rx="2" fill="#F08669" fill-opacity="0.5"/>
+              <rect x="478" y="94" width="160" height="6" rx="2" fill="#333130"/>
+              <rect x="478" y="106" width="140" height="6" rx="2" fill="#333130"/>
+            </svg>
+          </div>
+
+          <div class="cs-pivot">
+            <p class="cs-pivot-title">Pivot 1</p>
+            <p>My initial direction explored surfacing record presence directly in the list view using avatars to visually communicate who was already on a request.</p>
+            <p>Feasibility conversations with the dev lead surfaced a critical gap: avatars only work if you know the faces and/or initials of the colleagues. For a team of 2,500 colleagues, that assumption didn't hold. Providing the string of names in the "Viewers" column proved both more technically viable and significantly clearer in testing.</p>
+          </div>
+
+          <!-- Pivot 1 image: GEO German All — text-based presence names -->
+          <div class="cs-image">
+            <svg viewBox="0 0 720 405" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <rect width="720" height="405" fill="#1d1c1a"/>
+              <rect width="160" height="405" fill="#161514"/>
+              <rect x="18" y="24" width="80" height="9" rx="2" fill="#242220"/>
+              <rect x="18" y="44" width="124" height="7" rx="2" fill="#222120"/>
+              <rect x="18" y="58" width="108" height="7" rx="2" fill="#222120"/>
+              <!-- header with GEO label -->
+              <rect x="160" y="0" width="560" height="40" fill="#1e1d1b"/>
+              <rect x="176" y="12" width="140" height="16" rx="2" fill="#282624"/>
+              <rect x="176" y="14" width="100" height="12" rx="2" fill="#343230"/>
+              <!-- label text: "GEO German All" (simulated) -->
+              <rect x="180" y="16" width="88" height="8" rx="2" fill="#555250"/>
+              <!-- table headers -->
+              <rect x="160" y="40" width="560" height="28" fill="#23211f"/>
+              <rect x="176" y="49" width="58" height="7" rx="2" fill="#343230"/>
+              <rect x="286" y="49" width="52" height="7" rx="2" fill="#343230"/>
+              <rect x="400" y="49" width="44" height="7" rx="2" fill="#343230"/>
+              <rect x="490" y="49" width="52" height="7" rx="2" fill="#555350"/>
+              <rect x="590" y="49" width="54" height="7" rx="2" fill="#343230"/>
+              <!-- Row 1 — text-based viewers instead of avatars -->
+              <rect x="160" y="68" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="78" width="84" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="78" width="60" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="76" width="56" height="10" rx="10" fill="#2d4b3f"/>
+              <!-- text names in viewers column -->
+              <rect x="486" y="76" width="134" height="10" rx="2" fill="#555250" fill-opacity="0.3"/>
+              <rect x="488" y="79" width="110" height="4" rx="2" fill="#888580"/>
+              <!-- Row 2 -->
+              <rect x="160" y="96" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="106" width="100" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="106" width="52" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="104" width="56" height="10" rx="10" fill="#3d2e2d"/>
+              <rect x="486" y="104" width="90" height="10" rx="2" fill="#555250" fill-opacity="0.3"/>
+              <rect x="488" y="107" width="70" height="4" rx="2" fill="#888580"/>
+              <!-- Row 3 -->
+              <rect x="160" y="124" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="134" width="76" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="134" width="68" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="132" width="56" height="10" rx="10" fill="#2d4b3f"/>
+              <rect x="486" y="132" width="160" height="10" rx="2" fill="#555250" fill-opacity="0.3"/>
+              <rect x="488" y="135" width="130" height="4" rx="2" fill="#888580"/>
+              <!-- Row 4 -->
+              <rect x="160" y="152" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="162" width="92" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="162" width="46" height="7" rx="2" fill="#2e2c2a"/>
+              <!-- Checkmark: feasible -->
+              <rect x="620" y="72" width="72" height="22" rx="4" fill="#2d4b3f" fill-opacity="0.6"/>
+              <rect x="624" y="78" width="48" height="8" rx="2" fill="#2d4b3f"/>
+            </svg>
+          </div>
+
+          <div class="cs-pivot">
+            <p class="cs-pivot-title">Pivot 2</p>
+            <p>Testing revealed a gap we hadn't anticipated, which was knowing a colleague was on a request didn't tell you whether they were handling it or simply reviewing it. Presence without ownership still left room for uncertainty.</p>
+            <p>Rather than asking intake colleagues to manually assign themselves, I proposed an auto-population model: the moment any change is made on a Jobsheet, that colleague's name is captured as the process owner. Ownership becomes a natural byproduct of doing the work.</p>
+          </div>
+
+          <!-- Pivot 2 image: Jobsheet detail view with Process Owner field -->
+          <div class="cs-image">
+            <svg viewBox="0 0 720 405" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <rect width="720" height="405" fill="#1d1c1a"/>
+              <rect width="160" height="405" fill="#161514"/>
+              <rect x="18" y="24" width="80" height="9" rx="2" fill="#242220"/>
+              <rect x="18" y="44" width="124" height="7" rx="2" fill="#222120"/>
+              <!-- Main header -->
+              <rect x="160" y="0" width="560" height="44" fill="#1e1d1b"/>
+              <rect x="176" y="14" width="160" height="16" rx="2" fill="#282624"/>
+              <rect x="181" y="17" width="120" height="10" rx="2" fill="#444240"/>
+              <!-- Jobsheet content area -->
+              <rect x="160" y="44" width="560" height="361" fill="#1d1c1a"/>
+              <!-- Breadcrumb -->
+              <rect x="176" y="60" width="160" height="7" rx="2" fill="#2e2c2a"/>
+              <!-- Title bar -->
+              <rect x="176" y="80" width="320" height="20" rx="3" fill="#282624"/>
+              <rect x="180" y="84" width="200" height="12" rx="2" fill="#444240"/>
+              <!-- Process Owner field — highlighted -->
+              <rect x="176" y="116" width="320" height="48" rx="4" fill="#252220" stroke="#FFD375" stroke-width="1" stroke-opacity="0.4"/>
+              <rect x="188" y="124" width="80" height="7" rx="2" fill="#FFD375" fill-opacity="0.6"/>
+              <rect x="188" y="138" width="140" height="10" rx="2" fill="#FFD375" fill-opacity="0.22"/>
+              <rect x="192" y="141" width="110" height="4" rx="2" fill="#FFD375" fill-opacity="0.55"/>
+              <!-- auto-populated badge -->
+              <rect x="440" y="125" width="90" height="18" rx="3" fill="#2d4b3f"/>
+              <rect x="446" y="130" width="68" height="6" rx="2" fill="#2d4b3f"/>
+              <rect x="448" y="131" width="62" height="4" rx="2" fill="#5a9a7a" fill-opacity="0.8"/>
+              <!-- Other form fields -->
+              <rect x="176" y="178" width="320" height="36" rx="4" fill="#232120"/>
+              <rect x="188" y="186" width="60" height="6" rx="2" fill="#444240"/>
+              <rect x="188" y="198" width="120" height="8" rx="2" fill="#2e2c2a"/>
+              <rect x="176" y="226" width="320" height="36" rx="4" fill="#232120"/>
+              <rect x="188" y="234" width="70" height="6" rx="2" fill="#444240"/>
+              <rect x="188" y="246" width="100" height="8" rx="2" fill="#2e2c2a"/>
+              <rect x="176" y="274" width="320" height="80" rx="4" fill="#232120"/>
+              <rect x="188" y="282" width="60" height="6" rx="2" fill="#444240"/>
+              <rect x="188" y="294" width="200" height="8" rx="2" fill="#2e2c2a"/>
+              <rect x="188" y="308" width="170" height="8" rx="2" fill="#2e2c2a"/>
+              <rect x="188" y="322" width="140" height="8" rx="2" fill="#2e2c2a"/>
+            </svg>
+          </div>
+        </section>
+
+        <!-- SOLUTION -->
+        <section class="cs-section" id="solution">
+          <p class="cs-section-title">Solution</p>
+          <p>The process owner field became the backbone of the solution by auto-populating with the intake colleague's name the moment they act on a Jobsheet, and surfacing that ownership directly in the list view. This gave colleagues the highest-signal answer to the question that mattered most: not who is looking at this, but who is handling it.</p>
+          <p>I also designed for the edge cases that would break trust in the system. Colleagues can manually reassign ownership when requests change hands, unassign themselves if they've made any changes to a request in error, and the field clears automatically once a request has been successfully assigned to keep the list view clean and accurate without requiring any extra housekeeping.</p>
+
+          <!-- Solution image: final list view with clean Process Owner column -->
+          <div class="cs-image">
+            <svg viewBox="0 0 720 405" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <rect width="720" height="405" fill="#1d1c1a"/>
+              <rect width="160" height="405" fill="#161514"/>
+              <rect x="18" y="24" width="80" height="9" rx="2" fill="#242220"/>
+              <rect x="18" y="44" width="124" height="7" rx="2" fill="#222120"/>
+              <rect x="18" y="58" width="108" height="7" rx="2" fill="#222120"/>
+              <!-- header -->
+              <rect x="160" y="0" width="560" height="40" fill="#1e1d1b"/>
+              <rect x="176" y="14" width="140" height="12" rx="2" fill="#282624"/>
+              <!-- table headers -->
+              <rect x="160" y="40" width="560" height="28" fill="#23211f"/>
+              <rect x="176" y="49" width="58" height="7" rx="2" fill="#343230"/>
+              <rect x="286" y="49" width="52" height="7" rx="2" fill="#343230"/>
+              <rect x="400" y="49" width="44" height="7" rx="2" fill="#343230"/>
+              <!-- Process Owner header highlighted -->
+              <rect x="490" y="46" width="118" height="14" rx="2" fill="#FFD375" fill-opacity="0.08"/>
+              <rect x="494" y="49" width="80" height="7" rx="2" fill="#FFD375" fill-opacity="0.6"/>
+              <rect x="636" y="49" width="54" height="7" rx="2" fill="#343230"/>
+              <!-- Row 1 -->
+              <rect x="160" y="68" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="78" width="84" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="78" width="60" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="76" width="56" height="10" rx="10" fill="#2d4b3f"/>
+              <rect x="490" y="76" width="118" height="10" rx="2" fill="#FFD375" fill-opacity="0.1"/>
+              <rect x="494" y="79" width="88" height="4" rx="2" fill="#FFD375" fill-opacity="0.5"/>
+              <!-- Row 2 -->
+              <rect x="160" y="96" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="106" width="100" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="106" width="52" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="104" width="56" height="10" rx="10" fill="#3d2e2d"/>
+              <!-- Row 3 -->
+              <rect x="160" y="124" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="134" width="76" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="134" width="68" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="132" width="56" height="10" rx="10" fill="#2d4b3f"/>
+              <rect x="490" y="132" width="118" height="10" rx="2" fill="#FFD375" fill-opacity="0.1"/>
+              <rect x="494" y="135" width="72" height="4" rx="2" fill="#FFD375" fill-opacity="0.5"/>
+              <!-- Row 4 -->
+              <rect x="160" y="152" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="162" width="92" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="162" width="46" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="490" y="160" width="118" height="10" rx="2" fill="#FFD375" fill-opacity="0.1"/>
+              <rect x="494" y="163" width="96" height="4" rx="2" fill="#FFD375" fill-opacity="0.5"/>
+              <!-- Row 5 -->
+              <rect x="160" y="180" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="190" width="84" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="190" width="72" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="400" y="188" width="56" height="10" rx="10" fill="#2d4b3f"/>
+              <!-- Row 6 — no process owner (not yet acted on) -->
+              <rect x="160" y="208" width="560" height="1" fill="#252321"/>
+              <rect x="176" y="218" width="90" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="286" y="218" width="58" height="7" rx="2" fill="#2e2c2a"/>
+            </svg>
+          </div>
+        </section>
+
+        <!-- IMPACT -->
+        <section class="cs-section" id="impact">
+          <p class="cs-section-title">Impact</p>
+          <p>This solution proved to significantly prevent multiple intake colleagues working on the same Jobsheet. Prior to the feature release, duplicate handling of incoming requests was a consistent and escalating complaint among team leads.</p>
+          <p>Following the introduction of the process owner column, team leads reported that double work had nearly vanished. Across a platform processing an average of 130,000 requests per month, even a conservative 2% duplication rate represents thousands of requests handled twice unnecessarily every month.</p>
+        </section>
+
+      </main>
+
+      <!-- SIDEBAR -->
+      <aside class="cs-sidebar">
+        <nav class="cs-nav" id="cs-nav">
+          <a href="#overview" class="active">Overview</a>
+          <a href="#problem">Problem</a>
+          <a href="#approach">Approach</a>
+          <a href="#solution">Solution</a>
+          <a href="#impact">Impact</a>
+        </nav>
+      </aside>
+
+    </div>
+
+    <!-- CASE FOOTER -->
+    <footer class="cs-footer">
+      <a href="index.html">← Back to all work</a>
+      <a href="#" class="next-cs">Optimizing GlobalWorkflow →</a>
+    </footer>
+
+  </div>
+
+  <script>
+    // Hide nav on scroll down, reveal on scroll up
+    const nav = document.querySelector('nav');
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        nav.classList.add('nav--hidden');
+      } else {
+        nav.classList.remove('nav--hidden');
+      }
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+
+    // Sidebar active section highlighting
+    const sections = document.querySelectorAll('.cs-section');
+    const navLinks = document.querySelectorAll('.cs-nav a');
+
+    function setActive(id) {
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
+        }
+      });
+    }, { rootMargin: '-15% 0px -75% 0px', threshold: 0 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // The last section (Impact) sits at the bottom of the page, so the
+    // IntersectionObserver's negative bottom margin never fires for it.
+    // Detect when the user has scrolled to the bottom and activate it manually.
+    window.addEventListener('scroll', () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 80) {
+        const lastSection = sections[sections.length - 1];
+        if (lastSection) setActive(lastSection.id);
+      }
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mike Morales — Senior Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --digital-sand: #E9DDC3;
+      --starlight: #F0D3A0;
+      --sunlight: #FFD375;
+      --ember: #F08669;
+      --silverlight: #F1EFEB;
+      --charcoal: #1F1F1F;
+      --black-hole: #1B1918;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ::selection {
+      background-color: #84724B;
+      color: #fff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black-hole);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 26px 48px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: var(--black-hole);
+      transform: translateY(0);
+      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    nav.nav--hidden {
+      transform: translateY(-110%);
+    }
+
+    body {
+      padding-top: 72px;
+    }
+
+    .logo {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--digital-sand);
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--starlight);
+      text-decoration: none;
+      background-image: linear-gradient(var(--ember), var(--ember));
+      background-position: 0 52%;
+      background-repeat: no-repeat;
+      background-size: 0% 1.5px;
+      transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background-size 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .nav-links a:hover {
+      color: var(--ember);
+      background-size: 100% 1.5px;
+    }
+
+    /* ── PAGE CONTENT ── */
+    .page-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 68px 0 76px;
+    }
+
+    .hero__name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 5px;
+      letter-spacing: 0.01em;
+    }
+
+    .hero__role {
+      font-size: 20px;
+      font-weight: 300;
+      color: var(--digital-sand);
+      margin-bottom: 24px;
+    }
+
+    .hero__bio {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.7;
+      color: var(--silverlight);
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      padding-bottom: 72px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 18px;
+      letter-spacing: 0.02em;
+    }
+
+    .about p:not(.section-label) {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.7;
+      color: var(--silverlight);
+      margin-bottom: 18px;
+    }
+
+    .about p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about a {
+      color: var(--sunlight);
+      font-weight: 500;
+      text-decoration: none;
+      background-image: linear-gradient(var(--ember), var(--ember));
+      background-position: 0 52%;
+      background-repeat: no-repeat;
+      background-size: 0% 1.5px;
+      transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background-size 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .about a:hover {
+      color: var(--ember);
+      background-size: 100% 1.5px;
+    }
+
+    /* ── SELECTED WORK ── */
+    .work {
+      padding-bottom: 72px;
+      scroll-margin-top: 80px;
+    }
+
+    .work-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 44px;
+      margin-top: 4px;
+    }
+
+    .work-card {
+      display: block;
+      cursor: pointer;
+    }
+
+    .work-card__thumb {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      background: #21201e;
+      transition: opacity 0.25s ease;
+    }
+
+    .work-card:hover .work-card__thumb {
+      opacity: 0.82;
+    }
+
+    .work-card__thumb svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .work-card__title {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 21px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+
+    .work-card__meta {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--starlight);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── CTA / CONTACT ── */
+    .cta {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 72px;
+      padding-bottom: 100px;
+    }
+
+    .cta__heading {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 34px;
+      font-weight: 400;
+      color: var(--digital-sand);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .cta__desc {
+      font-size: 18px;
+      color: var(--silverlight);
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .cta__location {
+      font-size: 16px;
+      color: var(--digital-sand);
+      margin-bottom: 44px;
+    }
+
+    .contact-block {
+      margin-bottom: 28px;
+    }
+
+    .contact-block__label {
+      font-size: 16px;
+      color: var(--silverlight);
+      margin-bottom: 8px;
+    }
+
+    .contact-block a {
+      font-size: 18px;
+      color: var(--sunlight);
+      text-decoration: none;
+      background-image: linear-gradient(var(--ember), var(--ember));
+      background-position: 0 52%;
+      background-repeat: no-repeat;
+      background-size: 0% 1.5px;
+      transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background-size 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .contact-block a:hover {
+      color: var(--ember);
+      background-size: 100% 1.5px;
+    }
+
+    .social-list {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 7px;
+    }
+
+    .social-list a {
+      font-size: 18px;
+      color: var(--sunlight);
+      text-decoration: none;
+      background-image: linear-gradient(var(--ember), var(--ember));
+      background-position: 0 52%;
+      background-repeat: no-repeat;
+      background-size: 0% 1.5px;
+      transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background-size 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .social-list a:hover {
+      color: var(--ember);
+      background-size: 100% 1.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">mikemorales</a>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#work">work</a></li>
+      <li><a href="#">resume</a></li>
+      <li><a href="#contact">say hello</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-content">
+
+    <!-- HERO -->
+    <section class="hero">
+      <p class="hero__name">Mike Morales</p>
+      <p class="hero__role">Senior Product Designer · Enterprise systems specialist</p>
+      <p class="hero__bio">I partner with product and engineering leaders to turn complex problems into clear, high-impact experiences. With 10+ years designing at scale, I bring both strategic clarity and craft precision that senior teams need to ship confidently</p>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <p class="section-label">About</p>
+      <p>Currently, I am working at <a href="#">McKinsey &amp; Co</a> as a Senior Product Designer. In my open hours I am mentoring Designers with <a href="#">CareerFoundry</a>.</p>
+      <p>Previously, I was at <a href="#">Quadient</a> designing the Business Process Automation platform Impress. Before that, I was a building municipal websites with <a href="#">Webhouse</a> and commercial websites with <a href="#">Kreatorium</a>.</p>
+    </section>
+
+    <!-- SELECTED WORK -->
+    <section class="work" id="work">
+      <p class="section-label">Selected work</p>
+      <div class="work-cards">
+
+        <!-- Card 1: Process Owner -->
+        <a class="work-card" href="process-owner.html">
+          <div class="work-card__thumb">
+            <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <rect width="600" height="400" fill="#1d1c1a"/>
+              <!-- Left sidebar -->
+              <rect width="148" height="400" fill="#161514"/>
+              <rect x="16" y="24" width="78" height="9" rx="2" fill="#242220"/>
+              <rect x="16" y="44" width="114" height="7" rx="2" fill="#222120"/>
+              <rect x="16" y="58" width="98" height="7" rx="2" fill="#222120"/>
+              <rect x="16" y="72" width="106" height="7" rx="2" fill="#222120"/>
+              <rect x="16" y="86" width="88" height="7" rx="2" fill="#222120"/>
+              <rect x="16" y="108" width="70" height="7" rx="2" fill="#2a2825"/>
+              <rect x="16" y="122" width="118" height="7" rx="2" fill="#222120"/>
+              <rect x="16" y="136" width="102" height="7" rx="2" fill="#222120"/>
+              <rect x="16" y="150" width="90" height="7" rx="2" fill="#222120"/>
+              <!-- Top header bar -->
+              <rect x="148" y="0" width="452" height="40" fill="#1e1d1b"/>
+              <rect x="164" y="14" width="118" height="11" rx="2" fill="#282624"/>
+              <rect x="525" y="12" width="60" height="16" rx="3" fill="#2d4b3f"/>
+              <!-- Table column header -->
+              <rect x="148" y="40" width="452" height="28" fill="#23211f"/>
+              <rect x="164" y="49" width="52" height="7" rx="2" fill="#343230"/>
+              <rect x="264" y="49" width="52" height="7" rx="2" fill="#343230"/>
+              <rect x="370" y="49" width="68" height="7" rx="2" fill="#FFD375" fill-opacity="0.5"/>
+              <rect x="480" y="49" width="48" height="7" rx="2" fill="#343230"/>
+              <!-- Row 1 -->
+              <rect x="148" y="68" width="452" height="1" fill="#252321"/>
+              <rect x="164" y="78" width="82" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="264" y="78" width="58" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="370" y="76" width="88" height="10" rx="2" fill="#FFD375" fill-opacity="0.12"/>
+              <rect x="374" y="79" width="64" height="4" rx="2" fill="#FFD375" fill-opacity="0.5"/>
+              <rect x="480" y="76" width="55" height="10" rx="10" fill="#2d4b3f"/>
+              <!-- Row 2 -->
+              <rect x="148" y="96" width="452" height="1" fill="#252321"/>
+              <rect x="164" y="106" width="98" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="264" y="106" width="52" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="480" y="104" width="55" height="10" rx="10" fill="#3d2e2d"/>
+              <!-- Row 3 -->
+              <rect x="148" y="124" width="452" height="1" fill="#252321"/>
+              <rect x="164" y="134" width="74" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="264" y="134" width="66" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="370" y="132" width="88" height="10" rx="2" fill="#FFD375" fill-opacity="0.12"/>
+              <rect x="374" y="135" width="72" height="4" rx="2" fill="#FFD375" fill-opacity="0.5"/>
+              <rect x="480" y="132" width="55" height="10" rx="10" fill="#2d4b3f"/>
+              <!-- Row 4 -->
+              <rect x="148" y="152" width="452" height="1" fill="#252321"/>
+              <rect x="164" y="162" width="90" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="264" y="162" width="44" height="7" rx="2" fill="#2e2c2a"/>
+              <!-- Row 5 -->
+              <rect x="148" y="180" width="452" height="1" fill="#252321"/>
+              <rect x="164" y="190" width="78" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="264" y="190" width="72" height="7" rx="2" fill="#2e2c2a"/>
+              <rect x="370" y="188" width="88" height="10" rx="2" fill="#FFD375" fill-opacity="0.12"/>
+              <rect x="374" y="191" width="56" height="4" rx="2" fill="#FFD375" fill-opacity="0.5"/>
+              <rect x="480" y="188" width="55" height="10" rx="10" fill="#2d4b3f"/>
+              <!-- Right-side popup panel -->
+              <rect x="412" y="54" width="178" height="210" rx="6" fill="#191816" stroke="#2d2b28" stroke-width="1"/>
+              <rect x="424" y="70" width="72" height="9" rx="2" fill="#444240"/>
+              <rect x="424" y="88" width="104" height="7" rx="2" fill="#333130"/>
+              <rect x="424" y="102" width="86" height="7" rx="2" fill="#333130"/>
+              <rect x="424" y="124" width="48" height="7" rx="2" fill="#555250"/>
+              <rect x="424" y="140" width="142" height="7" rx="2" fill="#333130"/>
+              <rect x="424" y="154" width="122" height="7" rx="2" fill="#333130"/>
+              <rect x="424" y="175" width="54" height="16" rx="3" fill="#FFD375" fill-opacity="0.88"/>
+              <rect x="486" y="175" width="54" height="16" rx="3" fill="#2a2825"/>
+            </svg>
+          </div>
+          <p class="work-card__title">Process Owner · Record Presence</p>
+          <p class="work-card__meta">McKinsey &amp; Company · VG&amp;M GlobalWorkflow</p>
+        </a>
+
+        <!-- Card 2: GlobalWorkflow -->
+        <a class="work-card" href="#">
+          <div class="work-card__thumb">
+            <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <rect width="600" height="400" fill="#1d1c1a"/>
+              <!-- Left card: activity feed -->
+              <rect x="26" y="44" width="256" height="202" rx="8" fill="#f5f4f1"/>
+              <rect x="42" y="62" width="92" height="9" rx="2" fill="#d8d5cf"/>
+              <rect x="42" y="80" width="224" height="1" fill="#e6e3de"/>
+              <!-- activity item 1 -->
+              <circle cx="58" cy="106" r="13" fill="#E9DDC3"/>
+              <rect x="80" y="99" width="115" height="7" rx="2" fill="#c8c5bf"/>
+              <rect x="80" y="112" width="76" height="6" rx="2" fill="#d8d5cf"/>
+              <!-- activity item 2 -->
+              <circle cx="58" cy="143" r="13" fill="#F0D3A0"/>
+              <rect x="80" y="136" width="138" height="7" rx="2" fill="#c8c5bf"/>
+              <rect x="80" y="149" width="88" height="6" rx="2" fill="#d8d5cf"/>
+              <!-- activity item 3 -->
+              <circle cx="58" cy="180" r="13" fill="#E9DDC3"/>
+              <rect x="80" y="173" width="106" height="7" rx="2" fill="#c8c5bf"/>
+              <rect x="80" y="186" width="64" height="6" rx="2" fill="#d8d5cf"/>
+              <!-- Right card: responder / form -->
+              <rect x="304" y="44" width="270" height="202" rx="8" fill="#f5f4f1"/>
+              <rect x="320" y="62" width="76" height="9" rx="2" fill="#d8d5cf"/>
+              <rect x="320" y="80" width="238" height="1" fill="#e6e3de"/>
+              <!-- form label + input 1 -->
+              <rect x="320" y="96" width="58" height="7" rx="2" fill="#c2bfb8"/>
+              <rect x="320" y="110" width="238" height="24" rx="4" fill="#eeece8"/>
+              <!-- form label + textarea -->
+              <rect x="320" y="148" width="58" height="7" rx="2" fill="#c2bfb8"/>
+              <rect x="320" y="162" width="238" height="52" rx="4" fill="#eeece8"/>
+              <!-- button -->
+              <rect x="320" y="226" width="84" height="18" rx="4" fill="#1B1918"/>
+              <rect x="412" y="226" width="60" height="18" rx="4" fill="#eeece8"/>
+            </svg>
+          </div>
+          <p class="work-card__title">Optimizing GlobalWorkflow</p>
+          <p class="work-card__meta">McKinsey &amp; Company · CSM</p>
+        </a>
+
+        <!-- Card 3: Quadient University -->
+        <a class="work-card" href="#">
+          <div class="work-card__thumb">
+            <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <rect width="600" height="400" fill="#f8f7f4"/>
+              <!-- nav bar -->
+              <rect width="600" height="44" fill="#fff"/>
+              <rect x="24" y="16" width="132" height="11" rx="2" fill="#e2dfda"/>
+              <rect x="462" y="18" width="38" height="8" rx="2" fill="#e0ddd8"/>
+              <rect x="508" y="18" width="38" height="8" rx="2" fill="#e0ddd8"/>
+              <rect x="554" y="18" width="38" height="8" rx="2" fill="#e0ddd8"/>
+              <!-- logo / title area -->
+              <rect x="210" y="70" width="180" height="18" rx="3" fill="#E9DDC3"/>
+              <rect x="218" y="96" width="164" height="10" rx="2" fill="#ece8e1"/>
+              <rect x="236" y="114" width="128" height="10" rx="2" fill="#ece8e1"/>
+              <!-- illustration blobs -->
+              <circle cx="122" cy="264" r="52" fill="#FFD375" fill-opacity="0.28"/>
+              <circle cx="474" cy="228" r="42" fill="#F08669" fill-opacity="0.22"/>
+              <circle cx="300" cy="306" r="36" fill="#F0D3A0" fill-opacity="0.42"/>
+              <circle cx="182" cy="348" r="28" fill="#E9DDC3" fill-opacity="0.52"/>
+              <circle cx="400" cy="338" r="48" fill="#FFD375" fill-opacity="0.18"/>
+              <circle cx="532" cy="310" r="30" fill="#F08669" fill-opacity="0.18"/>
+              <!-- stems -->
+              <rect x="119" y="206" width="6" height="58" rx="3" fill="#E9DDC3" fill-opacity="0.8"/>
+              <rect x="471" y="180" width="6" height="48" rx="3" fill="#F0D3A0" fill-opacity="0.8"/>
+              <rect x="297" y="262" width="6" height="44" rx="3" fill="#F0D3A0" fill-opacity="0.7"/>
+              <!-- small icon blobs on stems -->
+              <circle cx="122" cy="202" r="7" fill="#FFD375" fill-opacity="0.6"/>
+              <circle cx="474" cy="176" r="6" fill="#F08669" fill-opacity="0.5"/>
+              <circle cx="300" cy="258" r="6" fill="#F0D3A0" fill-opacity="0.6"/>
+            </svg>
+          </div>
+          <p class="work-card__title">Redesigning Quadient University</p>
+          <p class="work-card__meta">Quadient · Liferay Platform</p>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- CTA / CONTACT -->
+    <section class="cta" id="contact">
+      <h2 class="cta__heading">Let's build something that matters</h2>
+      <p class="cta__desc">I'm open to roles where I can operate at both the strategic and craft level, ideally in SaaS. If you're building something ambitious, let's talk.</p>
+      <p class="cta__location">Based in Czechia · Open to remote roles</p>
+
+      <div class="contact-block">
+        <p class="contact-block__label">Get in touch:</p>
+        <a href="mailto:hello@moralesmike.com">hello@moralesmike.com</a>
+      </div>
+
+      <div class="contact-block">
+        <p class="contact-block__label">Connect with me on:</p>
+        <div class="social-list">
+          <a href="#">LinkedIn →</a>
+          <a href="#">Twitter →</a>
+          <a href="#">Dribbble →</a>
+          <a href="#">Instagram →</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+
+  <script>
+    // Hide nav on scroll down, reveal on scroll up
+    const nav = document.querySelector('nav');
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        nav.classList.add('nav--hidden');
+      } else {
+        nav.classList.remove('nav--hidden');
+      }
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
