@@ -96,6 +96,25 @@
       background-size: 100% 1.5px;
     }
 
+    @media (max-width: 680px) {
+      nav {
+        padding: 22px 24px;
+        flex-wrap: wrap;
+        row-gap: 14px;
+      }
+
+      .nav-links {
+        flex: 1 1 100%;
+        gap: 0;
+        justify-content: space-between;
+      }
+
+      .nav-links li {
+        flex: 1;
+        text-align: center;
+      }
+    }
+
     /* ── PAGE CONTENT ── */
     .page-content {
       max-width: 720px;
