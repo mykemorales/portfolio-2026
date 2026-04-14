@@ -380,6 +380,277 @@
     .cs-footer .next-cs:hover {
       color: var(--ember);
     }
+
+    /* ── PROTOTYPE SANDBOX ── */
+    .cs-prototype {
+      margin-bottom: 56px;
+    }
+
+    .cs-prototype-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      color: var(--digital-sand);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .cs-prototype-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      flex-shrink: 0;
+    }
+
+    /* Card */
+    .so-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 28px 28px 24px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .so-card .so-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .so-field {
+      margin-bottom: 16px;
+    }
+
+    .so-field-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .so-media-type-select {
+      padding: 8px 32px 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #111827;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      min-width: 168px;
+    }
+
+    /* Table */
+    .so-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .so-table th {
+      background: #f3f4f6;
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 500;
+      padding: 9px 10px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .so-table th:first-child,
+    .so-table th:last-child {
+      width: 32px;
+      padding: 9px 6px;
+    }
+
+    .so-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #f3f4f6;
+      vertical-align: middle;
+    }
+
+    .so-table td:first-child,
+    .so-table td:last-child {
+      padding: 9px 6px;
+    }
+
+    .so-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .so-empty-row td {
+      padding: 20px 10px;
+      font-size: 13px;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    /* Row controls */
+    .so-offer-select,
+    .so-suboffer-select {
+      padding: 5px 26px 5px 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 5px;
+      font-size: 13px;
+      color: #111827;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      width: 100%;
+    }
+
+    .so-slide-input,
+    .so-pp-input {
+      border: 1px solid #e5e7eb;
+      border-radius: 5px;
+      padding: 5px 8px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      color: #111827;
+      width: 100%;
+    }
+
+    .so-pp-input {
+      -moz-appearance: textfield;
+    }
+
+    .so-pp-input::-webkit-outer-spin-button,
+    .so-pp-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+
+    .so-offer-select:focus,
+    .so-suboffer-select:focus,
+    .so-slide-input:focus,
+    .so-pp-input:focus,
+    .so-media-type-select:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .so-icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      border-radius: 5px;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .so-icon-btn:hover {
+      color: #374151;
+      background: #f3f4f6;
+    }
+
+    .so-delete-btn:hover {
+      color: #ef4444 !important;
+      background: #fef2f2 !important;
+    }
+
+    /* Footer */
+    .so-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .so-add-btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .so-add-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .so-total-block {
+      text-align: right;
+    }
+
+    .so-total-label {
+      font-size: 11px;
+      color: #9ca3af;
+      display: block;
+      margin-bottom: 1px;
+    }
+
+    .so-total-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #111827;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .so-total-value.so-total-bump {
+      color: #2563eb;
+    }
+
+    /* ── ROW MODE STATES ── */
+    /* Edit mode: hide pencil + trash, hide text spans */
+    [data-mode="edit"] .so-pencil-btn,
+    [data-mode="edit"] .so-delete-btn  { display: none; }
+    [data-mode="edit"] .so-cell-text   { display: none; }
+
+    /* View mode: hide confirm + cancel, hide inputs */
+    [data-mode="view"] .so-confirm-btn,
+    [data-mode="view"] .so-cancel-btn  { display: none; }
+    [data-mode="view"] .so-cell-input  { display: none; }
+
+    .so-cell-text {
+      font-size: 14px;
+      color: #111827;
+      display: block;
+      padding: 2px 0;
+    }
+
+    .so-confirm-btn:hover {
+      color: #16a34a !important;
+      background: #f0fdf4 !important;
+    }
+
+    #so-add-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .so-pp-input.so-input-error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+    }
+
   </style>
 </head>
 <body>
@@ -466,6 +737,53 @@
             <li>Validation tradeoff, adapting to ServiceNow out-of-box error behaviour rather than the original inline approach</li>
             <li>Known defect shipped with a logged remediation plan to fix the disabled look of the default state</li>
           </ul>
+
+          <!-- PROTOTYPE SANDBOX -->
+          <div class="cs-prototype" id="prototype">
+            <div class="cs-prototype-badge">Live prototype</div>
+            <div class="so-card">
+              <p class="so-title">Service offerings</p>
+
+              <div class="so-field">
+                <label class="so-field-label" for="so-media-type">Media type*</label>
+                <select class="so-media-type-select" id="so-media-type">
+                  <option value="pptx">PowerPoint Deck</option>
+                  <option value="word">Microsoft Word</option>
+                  <option value="excel">Microsoft Excel</option>
+                  <option value="miro">Miro</option>
+                </select>
+              </div>
+
+              <table class="so-table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Media offer*</th>
+                    <th>Media sub-offer</th>
+                    <th>Slide no.</th>
+                    <th>PP*</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="so-tbody">
+                  <tr class="so-empty-row" id="so-empty-row">
+                    <td colspan="6">No offers added yet — click Add Media Offer to begin</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="so-footer">
+                <button class="so-add-btn" id="so-add-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  Add Media Offer
+                </button>
+                <div class="so-total-block">
+                  <span class="so-total-label">Total PP</span>
+                  <span class="so-total-value" id="so-total">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div class="cs-image">
             <img src="images/so-update.png" alt="Service offerings — updated component">
@@ -564,6 +882,201 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeLightbox();
     });
+
+    // ── SERVICE OFFERING PROTOTYPE ──
+    (function () {
+      const OFFERS = [
+        'Improve Layout', 'Icons & Imagery', 'Sanitize',
+        'Digitize', 'Edit & Update', 'Redesign Slides', 'Convert to Template'
+      ];
+      const SUB_OFFERS = ['-', 'Basic', 'Advanced', 'Premium'];
+
+      let rowCounter = 0;
+
+      const pencilSVG  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+      const trashSVG   = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
+      const confirmSVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`;
+      const cancelSVG  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+
+      function subOfferOptions() {
+        return SUB_OFFERS.map(s => `<option value="${s}">${s}</option>`).join('');
+      }
+
+      // Returns the set of offer values already confirmed in all rows except excludeTr
+      function getUsedOffers(excludeTr) {
+        const used = new Set();
+        document.querySelectorAll('#so-tbody tr:not(#so-empty-row)').forEach(row => {
+          if (row === excludeTr) return;
+          const sel = row.querySelector('.so-offer-select');
+          if (sel && sel.value) used.add(sel.value);
+        });
+        return used;
+      }
+
+      // Rebuild the offer dropdown for a row, excluding offers taken by other rows
+      function refreshOfferDropdown(tr) {
+        const used   = getUsedOffers(tr);
+        const sel    = tr.querySelector('.so-offer-select');
+        const saved  = tr.dataset.savedOffer || '';
+        // Available = all offers not taken by others; always include the row's own saved offer
+        const available = OFFERS.filter(o => !used.has(o) || o === saved);
+        sel.innerHTML = available.map(o =>
+          `<option value="${o}" ${o === saved ? 'selected' : ''}>${o}</option>`
+        ).join('');
+        // Fallback: if saved offer is gone, select first available
+        if (saved && !available.includes(saved) && available.length) sel.value = available[0];
+      }
+
+      function updateTotal() {
+        const inputs = document.querySelectorAll('.so-pp-input');
+        let sum = 0;
+        inputs.forEach(inp => { sum += parseFloat(inp.value) || 0; });
+        const el = document.getElementById('so-total');
+        if (!el) return;
+        el.textContent = Number.isInteger(sum) ? sum : sum.toFixed(1);
+        el.classList.remove('so-total-bump');
+        void el.offsetWidth;
+        el.classList.add('so-total-bump');
+        setTimeout(() => el.classList.remove('so-total-bump'), 400);
+      }
+
+      function toggleEmpty() {
+        const tbody    = document.getElementById('so-tbody');
+        const emptyRow = document.getElementById('so-empty-row');
+        if (!tbody || !emptyRow) return;
+        const hasRows = tbody.querySelectorAll('tr:not(#so-empty-row)').length > 0;
+        emptyRow.style.display = hasRows ? 'none' : '';
+      }
+
+      // Disable the Add button whenever any row is in edit mode
+      function updateAddButton() {
+        const btn = document.getElementById('so-add-btn');
+        if (!btn) return;
+        const editing = !!document.querySelector('#so-tbody tr[data-mode="edit"]');
+        btn.disabled = editing;
+      }
+
+      function saveRow(tr) {
+        const offer    = tr.querySelector('.so-offer-select').value;
+        const subOffer = tr.querySelector('.so-suboffer-select').value;
+        const slideNo  = tr.querySelector('.so-slide-input').value.trim();
+        const pp       = tr.querySelector('.so-pp-input').value;
+
+        tr.dataset.savedOffer    = offer;
+        tr.dataset.savedSubOffer = subOffer;
+        tr.dataset.savedSlide    = slideNo;
+        tr.dataset.savedPp       = pp;
+
+        tr.querySelector('.so-offer-text').textContent    = offer;
+        tr.querySelector('.so-suboffer-text').textContent = (!subOffer || subOffer === '-') ? '–' : subOffer;
+        tr.querySelector('.so-slide-text').textContent    = slideNo  || '–';
+        tr.querySelector('.so-pp-text').textContent       = pp       || '0';
+      }
+
+      function restoreRow(tr) {
+        tr.querySelector('.so-offer-select').value    = tr.dataset.savedOffer    || OFFERS[0];
+        tr.querySelector('.so-suboffer-select').value = tr.dataset.savedSubOffer || '-';
+        tr.querySelector('.so-slide-input').value     = tr.dataset.savedSlide    || '';
+        tr.querySelector('.so-pp-input').value        = tr.dataset.savedPp       || '';
+      }
+
+      function confirmRow(tr) {
+        const ppInput = tr.querySelector('.so-pp-input');
+        if (!ppInput.value.trim()) {
+          ppInput.classList.add('so-input-error');
+          ppInput.focus();
+          return;
+        }
+        ppInput.classList.remove('so-input-error');
+        saveRow(tr);
+        tr.dataset.confirmed = 'true';
+        tr.dataset.mode = 'view';
+        updateTotal();
+        updateAddButton();
+      }
+
+      function editRow(tr) {
+        tr.dataset.mode = 'edit';
+        refreshOfferDropdown(tr);
+        tr.querySelector('.so-offer-select').focus();
+        updateAddButton();
+      }
+
+      function cancelRow(tr) {
+        if (tr.dataset.confirmed !== 'true') {
+          tr.remove();
+          updateTotal();
+          toggleEmpty();
+        } else {
+          restoreRow(tr);
+          tr.dataset.mode = 'view';
+          updateTotal();
+        }
+        updateAddButton();
+      }
+
+      function addRow() {
+        const tbody = document.getElementById('so-tbody');
+        if (!tbody) return;
+        const id = rowCounter++;
+
+        const tr = document.createElement('tr');
+        tr.id = `so-row-${id}`;
+        tr.dataset.mode      = 'edit';
+        tr.dataset.confirmed = 'false';
+
+        tr.innerHTML = `
+          <td>
+            <button class="so-icon-btn so-pencil-btn" title="Edit">${pencilSVG}</button>
+          </td>
+          <td style="min-width:150px">
+            <select class="so-offer-select so-cell-input"></select>
+            <span class="so-cell-text so-offer-text"></span>
+          </td>
+          <td style="min-width:100px">
+            <select class="so-suboffer-select so-cell-input">${subOfferOptions()}</select>
+            <span class="so-cell-text so-suboffer-text"></span>
+          </td>
+          <td style="min-width:64px">
+            <input type="text" class="so-slide-input so-cell-input" placeholder="e.g. 1–5">
+            <span class="so-cell-text so-slide-text"></span>
+          </td>
+          <td style="width:64px">
+            <input type="number" class="so-pp-input so-cell-input" min="0" max="999" placeholder="0">
+            <span class="so-cell-text so-pp-text"></span>
+          </td>
+          <td style="min-width:68px">
+            <div style="display:flex;gap:2px;justify-content:flex-end">
+              <button class="so-icon-btn so-confirm-btn" title="Confirm">${confirmSVG}</button>
+              <button class="so-icon-btn so-cancel-btn"  title="Cancel">${cancelSVG}</button>
+              <button class="so-icon-btn so-delete-btn"  title="Remove">${trashSVG}</button>
+            </div>
+          </td>
+        `;
+
+        tr.querySelector('.so-confirm-btn').addEventListener('click', () => confirmRow(tr));
+        tr.querySelector('.so-pencil-btn').addEventListener('click',  () => editRow(tr));
+        tr.querySelector('.so-cancel-btn').addEventListener('click',  () => cancelRow(tr));
+        tr.querySelector('.so-delete-btn').addEventListener('click',  () => {
+          tr.remove();
+          updateTotal();
+          toggleEmpty();
+          updateAddButton();
+        });
+        tr.querySelector('.so-pp-input').addEventListener('input', function () {
+          this.classList.remove('so-input-error');
+          updateTotal();
+        });
+
+        tbody.appendChild(tr);
+        refreshOfferDropdown(tr);   // populate only available offers
+        toggleEmpty();
+        updateAddButton();          // disable Add button immediately
+        tr.querySelector('.so-offer-select').focus();
+      }
+
+      document.getElementById('so-add-btn').addEventListener('click', addRow);
+    })();
   </script>
 
 </body>
