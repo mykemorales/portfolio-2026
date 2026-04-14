@@ -406,6 +406,23 @@
       flex-shrink: 0;
     }
 
+    .so-rotate-hint {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .so-rotate-hint {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-top: 6px;
+      }
+    }
+
     /* Card */
     .so-card {
       background: #ffffff;
@@ -741,6 +758,10 @@
           <!-- PROTOTYPE SANDBOX -->
           <div class="cs-prototype" id="prototype">
             <div class="cs-prototype-badge">Live prototype</div>
+            <div class="so-rotate-hint">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="10" height="16" rx="2"/><path d="M17 8l3 3-3 3"/><path d="M20 11H13"/></svg>
+              Rotate for best view
+            </div>
             <div class="so-card">
               <p class="so-title">Service offerings</p>
 
