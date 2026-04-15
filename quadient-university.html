@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Process Owner + Record Presence — Mike Morales</title>
+  <title>Redesigning Quadient University, Mike Morales</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -249,6 +249,26 @@
       cursor: zoom-in;
     }
 
+    /* ── IMAGE PLACEHOLDER ── */
+    .cs-placeholder {
+      width: 100%;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      margin: 28px 0;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cs-placeholder-label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.18);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
     /* ── LIGHTBOX ── */
     .lightbox {
       position: fixed;
@@ -356,20 +376,20 @@
     <!-- HEADER -->
     <header class="cs-header">
       <div class="cs-eyebrow">
-        <span class="cs-company">McKinsey &amp; Company · VG&amp;M</span>
-        <span class="cs-date">Q3 2025</span>
+        <span class="cs-company">Quadient · Customer Education</span>
+        <span class="cs-date">2020 · 2021</span>
       </div>
-      <h1 class="cs-title">Process Owner + Record Presence</h1>
+      <h1 class="cs-title">Redesigning Quadient University</h1>
     </header>
 
-    <!-- BODY (content + sidebar) -->
+    <!-- BODY -->
     <div class="cs-body">
 
       <main class="cs-main">
 
         <!-- Hero image -->
         <div class="cs-hero-image">
-          <img src="images/Process Owner Cover.png" alt="Process Owner · Record Presence — cover">
+          <img src="images/quadient-cover.png" alt="Redesigning Quadient University cover">
         </div>
 
         <!-- OVERVIEW -->
@@ -378,15 +398,15 @@
           <div class="overview-grid">
             <div class="overview-item">
               <p class="overview-item__label">Role</p>
-              <p class="overview-item__value">Lead/Sole Product Designer &amp; Researcher</p>
+              <p class="overview-item__value">UX Designer &amp; Researcher</p>
             </div>
             <div class="overview-item">
               <p class="overview-item__label">Team</p>
-              <p class="overview-item__value">1 PM, 1 Tech Lead, 4 Developers</p>
+              <p class="overview-item__value">1 UX Research Lead, 1 PM, 2 Developers, 1 Exchange Stakeholder, Graphics Team</p>
             </div>
             <div class="overview-item">
-              <p class="overview-item__label">Timeline</p>
-              <p class="overview-item__value">4 weeks | 2 sprints</p>
+              <p class="overview-item__label">Platform</p>
+              <p class="overview-item__value">Liferay CMS</p>
             </div>
           </div>
         </section>
@@ -394,60 +414,77 @@
         <!-- PROBLEM -->
         <section class="cs-section" id="problem">
           <p class="cs-section-title">Problem</p>
-          <p>Post-MVP release of GlobalWorkflow, intake colleagues had no way of knowing whether a colleague had already begun processing a request which led to a spike in duplicate handling across a platform processing on average 130,000 requests per month.</p>
+          <p>Quadient University is the customer and consultant hub for questions, resources, and product documentation. A CMS migration to Liferay opened a window for a full redesign. Search had no loading feedback and could take up to 20 seconds. Key resources were buried. Profile and account settings were split across two disconnected areas. Link styling was inconsistent across three different colors. A migration was already in motion, which meant there was room to fix it.</p>
         </section>
 
         <!-- APPROACH -->
         <section class="cs-section" id="approach">
           <p class="cs-section-title">Approach</p>
-          <p>My initial approach centred on a live record presence indicator component displaying avatars on any Jobsheet being viewed by more than one intake colleague simultaneously. It solved part of the problem: colleagues inside a Jobsheet could now see each other.</p>
-          <p>But the more I observed how intake colleagues actually worked, the clearer it became that the real collision was happening earlier at the list view level, before anyone had even opened a request.</p>
+          <p>I partnered with UX research lead Martin to run a site audit before touching anything. We cross-referenced known customer complaints from the PM with our own analysis of the site to identify where the real pain was concentrated. From there we narrowed a participant list for usability testing, spanning daily users to those who logged in once a month, and ran sessions with five people to pressure-test our assumptions.</p>
+          <p>Every participant was frustrated by the same thing: search gave no visual feedback, so users had no way of knowing whether the site was working or frozen. Four of the five couldn't locate a specific product installer. And users consistently mistook highlighted text for links, or ignored actual links because the color didn't register as interactive. The audit assumptions held up, which gave us clear ground to stand on when aligning goals with the PM.</p>
 
-          <!-- Approach image: early avatar concept in list view -->
+          <!-- Sitemap exploration -->
           <div class="cs-image">
-            <img src="images/1a.png" alt="Approach — initial direction">
+            <img src="images/qu-sitemap.png" alt="Quadient University revised sitemap">
           </div>
 
           <div class="cs-pivot">
-            <p class="cs-pivot-title">Pivot 1</p>
-            <p>My initial direction explored surfacing record presence directly in the list view using avatars to visually communicate who was already on a request.</p>
-            <p>Feasibility conversations with the dev lead surfaced a critical gap: avatars only work if you know the faces and/or initials of the colleagues. For a team of 2,500 colleagues, that assumption didn't hold. Providing the string of names in the "Viewers" column proved both more technically viable and significantly clearer in testing.</p>
+            <p class="cs-pivot-title">Unifying the profile</p>
+            <p>One of the four goals coming out of research was to consolidate the fragmented user profile: account settings, profile details, and notification preferences were spread across different parts of the site. I set out to design a single destination where a user could find everything about their account.</p>
+            <p>Early explorations included surfacing earned badges and a direct messaging entry point on the profile page. Both were cut from this release due to time constraints. What shipped was a profile page covering the user's basic details, skills, projects, and leaderboard standing: a clean, unified view that replaced the fragmented experience entirely.</p>
           </div>
 
-          <!-- Pivot 1 image: GEO German All — text-based presence names -->
+          <!-- Profile exploration -->
           <div class="cs-image">
-            <img src="images/2a.png" alt="Pivot 1 — presence in list view">
+            <img src="images/qu-profile-before.png" alt="Quadient University profile page exploration">
+          </div>
+
+          <!-- Profile revised mockup -->
+          <div class="cs-image">
+            <img src="images/qu-profile-after.png" alt="Quadient University profile page revised mockup">
           </div>
 
           <div class="cs-pivot">
-            <p class="cs-pivot-title">Pivot 2</p>
-            <p>Testing revealed a gap we hadn't anticipated, which was knowing a colleague was on a request didn't tell you whether they were handling it or simply reviewing it. Presence without ownership still left room for uncertainty.</p>
-            <p>Rather than asking intake colleagues to manually assign themselves, I proposed an auto-population model: the moment any change is made on a Jobsheet, that colleague's name is captured as the process owner. Ownership becomes a natural byproduct of doing the work.</p>
+            <p class="cs-pivot-title">Exchange: new scope mid-project</p>
+            <p>Partway through the project, a new requirement arrived: a marketplace, later named Exchange, where customers could browse and submit resources for Quadient products: templates, configurations, demos, and samples, both company-made and user-generated.</p>
+            <p>I worked with the newly appointed Exchange stakeholder to define requirements and map the submission workflow. The core design question was how a user submits a resource, and what the approval process looks like on the back end. We landed on a flow where a user submits a resource, an internal administrator reviews and approves or rejects it, and the user receives a notification with the outcome.</p>
           </div>
 
-          <!-- Pivot 2 image: Jobsheet detail view with Process Owner field -->
+          <!-- Exchange wireframes -->
           <div class="cs-image">
-            <img src="images/3a.png" alt="Pivot 2 — process owner field">
+            <img src="images/qu-exchange-detail.png" alt="Quadient University Exchange detail wireframe">
           </div>
+
+          <!-- Exchange landing page proposal -->
+          <div class="cs-image">
+            <img src="images/qu-exchange-marketplace.png" alt="Quadient University Exchange marketplace landing page">
+          </div>
+
         </section>
 
         <!-- SOLUTION -->
         <section class="cs-section" id="solution">
           <p class="cs-section-title">Solution</p>
-          <p>The process owner field became the backbone of the solution by auto-populating with the intake colleague's name the moment they act on a Jobsheet, and surfacing that ownership directly in the list view. This gave colleagues the highest-signal answer to the question that mattered most: not who is looking at this, but who is handling it.</p>
-          <p>I also designed for the edge cases that would break trust in the system. Colleagues can manually reassign ownership when requests change hands, unassign themselves if they've made any changes to a request in error, and the field clears automatically once a request has been successfully assigned to keep the list view clean and accurate without requiring any extra housekeeping.</p>
+          <p>Working within the Liferay framework meant designing around the platform's native components rather than from a blank canvas. I partnered with the graphics team to stay aligned with the existing style guide while pushing the visual direction as far as the framework allowed. The back-and-forth with developers was a consistent part of refinement, figuring out which native components could be modified and which required workarounds.</p>
+          <p>Three things shipped in this release: a unified profile page, the Exchange platform with its submission and approval workflow, and a dedicated video section with video support throughout the site. The sitemap restructure addressed the buried resources and disorganized navigation that had surfaced in research. Link styling was brought into consistency with a single, defined color system.</p>
 
-          <!-- Solution image: final list view with clean Process Owner column -->
+          <!-- Video section -->
           <div class="cs-image">
-            <img src="images/4a.png" alt="Solution — final design">
+            <img src="images/Video_Page.png" alt="Quadient University video section">
           </div>
+
+          <div class="cs-image">
+            <img src="images/giphy-13.gif" alt="Quadient University video section in action">
+          </div>
+
         </section>
 
-        <!-- IMPACT -->
-        <section class="cs-section" id="impact">
-          <p class="cs-section-title">Impact</p>
-          <p>This solution proved to significantly prevent multiple intake colleagues working on the same Jobsheet. Prior to the feature release, duplicate handling of incoming requests was a consistent and escalating complaint among team leads.</p>
-          <p>Following the introduction of the process owner column, team leads reported that double work had nearly vanished. Across a platform processing an average of 130,000 requests per month, even a conservative 2% duplication rate represents thousands of requests handled twice unnecessarily every month.</p>
+        <!-- OUTCOME -->
+        <section class="cs-section" id="outcome">
+          <p class="cs-section-title">Outcome</p>
+          <p>The original Exchange proposal used a gallery-style layout to showcase submitted resources. It looked good, but it was built on an assumption that didn't hold: most users submitting resources didn't have multiple images to display, and many had none at all. The design had to be restructured to foreground the resource's details and description, with default images handling the cases where nothing was provided.</p>
+          <p>The project also changed how I approached working across multiple simultaneous products. At the time I was carrying responsibilities on two other products in parallel, which forced a level of deliberate communication with each PM that I hadn't needed to develop before. Delegation became a practical skill, and knowing when to hand something off kept things moving without sacrificing quality.</p>
+          <p>This release addressed the most significant issues with the previous version of Quadient University. It wasn't the final word on what the site could be, but it was a meaningful step toward a platform that actually reflected the product portfolio it was representing.</p>
         </section>
 
       </main>

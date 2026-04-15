@@ -467,9 +467,17 @@
       min-width: 168px;
     }
 
+    /* Table scroll wrapper */
+    .so-table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 -2px;
+    }
+
     /* Table */
     .so-table {
       width: 100%;
+      min-width: 480px;
       border-collapse: collapse;
     }
 
@@ -716,7 +724,7 @@
             </div>
             <div class="overview-item">
               <p class="overview-item__label">Timeline</p>
-              <p class="overview-item__value">2 quarters</p>
+              <p class="overview-item__value">Q1–Q2</p>
             </div>
           </div>
         </section>
@@ -775,6 +783,7 @@
                 </select>
               </div>
 
+              <div class="so-table-scroll">
               <table class="so-table">
                 <thead>
                   <tr>
@@ -792,6 +801,7 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
 
               <div class="so-footer">
                 <button class="so-add-btn" id="so-add-btn">
@@ -806,9 +816,6 @@
             </div>
           </div>
 
-          <div class="cs-image">
-            <img src="images/so-update.png" alt="Service offerings — updated component">
-          </div>
 
           <p>The running PP total was a self-initiated addition that removed a consistent source of mental load. Previously, intake colleagues calculated cumulative production points manually across multiple offers, a task prone to error when dividing work across production colleagues. Automating it was well received by both intake colleagues and team leads following launch.</p>
         </section>
@@ -847,7 +854,7 @@
     <!-- CASE FOOTER -->
     <footer class="cs-footer">
       <a href="index.html">← Back to all work</a>
-      <a href="process-owner.html" class="next-cs">Process Owner + Record Presence →</a>
+      <a href="quadient-university.html" class="next-cs">Redesigning Quadient University →</a>
     </footer>
 
   </div>
