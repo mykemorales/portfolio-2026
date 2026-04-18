@@ -294,6 +294,75 @@
       margin-bottom: 8px;
     }
 
+    .contact-email-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: color 0.2s ease;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:hover {
+      color: var(--ember);
+    }
+
+    .copy-btn__tooltip,
+    .copy-btn__hover-tip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 6px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .copy-btn__hover-tip {
+      background: var(--black-hole);
+      color: var(--silverlight);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .copy-btn__tooltip {
+      background: var(--ember);
+      color: #fff;
+    }
+
+    .copy-btn:hover .copy-btn__hover-tip {
+      opacity: 1;
+    }
+
+    .copy-btn.copied .copy-btn__hover-tip {
+      opacity: 0;
+    }
+
+    .copy-btn.copied .copy-btn__tooltip {
+      opacity: 1;
+    }
+
+    .copy-btn.copied {
+      color: var(--ember);
+    }
+
     .contact-block a {
       font-size: 18px;
       color: var(--starlight);
@@ -406,7 +475,16 @@
 
       <div class="contact-block">
         <p class="contact-block__label">Get in touch:</p>
-        <a href="mailto:hello@moralesmike.com">hello@moralesmike.com</a>
+        <div class="contact-email-row">
+          <a href="mailto:hello@moralesmike.com">hello@moralesmike.com</a>
+          <button class="copy-btn" id="copy-email-btn" aria-label="Copy email address">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span class="copy-btn__hover-tip">Copy email to clipboard</span>
+            <span class="copy-btn__tooltip">Copied!</span>
+          </button>
+        </div>
       </div>
 
       <div class="contact-block">
@@ -436,6 +514,15 @@
       }
       lastScrollY = currentScrollY;
     }, { passive: true });
+
+    // Copy email to clipboard
+    const copyBtn = document.getElementById('copy-email-btn');
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('hello@moralesmike.com').then(() => {
+        copyBtn.classList.add('copied');
+        setTimeout(() => copyBtn.classList.remove('copied'), 2000);
+      });
+    });
   </script>
 
 </body>
