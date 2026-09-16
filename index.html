@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
   <title>Mike Morales — Senior Product Designer</title>
   <link rel="icon" type="image/png" href="favicon.png?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,8 +24,93 @@
       --sunlight: #FFD375;
       --ember: #F08669;
       --silverlight: #F1EFEB;
+      --sage: #BCF0A0;
       --charcoal: #1F1F1F;
       --black-hole: #1B1918;
+      --stone: #706D6C;
+
+      /* semantic theme tokens (dark, default) */
+      --color-bg: var(--black-hole);
+      --color-text: #fff;
+      --color-body: #858482;
+      --color-link: var(--digital-sand);
+      --color-label: #858482;
+      --color-border: rgba(255, 255, 255, 0.06);
+      --color-icon-muted: rgba(255, 255, 255, 0.3);
+      --link-weight: 600;
+      --color-meta: var(--stone);
+      --color-label-strong: rgba(255, 255, 255, 0.88);
+      --color-title: rgba(255, 255, 255, 0.92);
+      --color-faint: rgba(255, 255, 255, 0.35);
+      --color-ghost: rgba(255, 255, 255, 0.14);
+      --color-card-bg: #21201e;
+      --color-card-bg-alt: #2a241c;
+      --color-highlight: var(--sage);
+      --color-nav-bg: rgba(27, 25, 24, 0.75);
+    }
+
+    /* Automatic light mode based on system setting, unless overridden below */
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --color-bg: var(--silverlight);
+        --color-text: var(--charcoal);
+        --color-body: #858482;
+        --color-link: var(--black-hole);
+        --color-label: var(--stone);
+        --color-border: rgba(0, 0, 0, 0.08);
+        --color-icon-muted: rgba(0, 0, 0, 0.3);
+        --link-weight: 700;
+        --color-meta: #858482;
+        --color-label-strong: rgba(31, 31, 31, 0.85);
+        --color-title: rgba(31, 31, 31, 0.92);
+        --color-faint: rgba(31, 31, 31, 0.35);
+        --color-ghost: rgba(31, 31, 31, 0.12);
+        --color-card-bg: #EAE5D9;
+        --color-card-bg-alt: #F1ECDF;
+        --color-highlight: #4F7A34;
+        --color-nav-bg: rgba(241, 239, 235, 0.75);
+      }
+    }
+
+    /* Manual toggle overrides (set via JS + localStorage) */
+    :root[data-theme="light"] {
+      --color-bg: var(--silverlight);
+      --color-text: var(--charcoal);
+      --color-body: #858482;
+      --color-link: var(--black-hole);
+      --color-label: var(--stone);
+      --color-border: rgba(0, 0, 0, 0.08);
+      --color-icon-muted: rgba(0, 0, 0, 0.3);
+      --link-weight: 700;
+      --color-meta: #858482;
+      --color-label-strong: rgba(31, 31, 31, 0.85);
+      --color-title: rgba(31, 31, 31, 0.92);
+      --color-faint: rgba(31, 31, 31, 0.35);
+      --color-ghost: rgba(31, 31, 31, 0.12);
+      --color-card-bg: #EAE5D9;
+      --color-card-bg-alt: #F1ECDF;
+      --color-highlight: #4F7A34;
+      --color-nav-bg: rgba(241, 239, 235, 0.75);
+    }
+
+    :root[data-theme="dark"] {
+      --color-bg: var(--black-hole);
+      --color-text: #fff;
+      --color-body: #858482;
+      --color-link: var(--digital-sand);
+      --color-label: #858482;
+      --color-border: rgba(255, 255, 255, 0.06);
+      --color-icon-muted: rgba(255, 255, 255, 0.3);
+      --link-weight: 600;
+      --color-meta: var(--stone);
+      --color-label-strong: rgba(255, 255, 255, 0.88);
+      --color-title: rgba(255, 255, 255, 0.92);
+      --color-faint: rgba(255, 255, 255, 0.35);
+      --color-ghost: rgba(255, 255, 255, 0.14);
+      --color-card-bg: #21201e;
+      --color-card-bg-alt: #2a241c;
+      --color-highlight: var(--sage);
+      --color-nav-bg: rgba(27, 25, 24, 0.75);
     }
 
     *, *::before, *::after {
@@ -33,12 +127,14 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--black-hole);
-      color: #fff;
+      background: var(--color-bg);
+      color: var(--color-text);
       font-family: 'Inter', sans-serif;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      padding-top: 72px;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -48,41 +144,42 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 26px 48px;
+      padding: 26px 64px;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 100;
-      background: var(--black-hole);
+      background: var(--color-nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       transform: translateY(0);
-      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background-color 0.3s ease;
     }
 
     nav.nav--hidden {
       transform: translateY(-110%);
     }
 
-    body {
-      padding-top: 72px;
-    }
-
     .logo {
       font-size: 14px;
-      font-weight: 500;
-      color: var(--digital-sand);
+      font-weight: 700;
+      color: var(--color-link);
       letter-spacing: 0.01em;
     }
 
     .nav-links {
       list-style: none;
       display: flex;
+      align-items: center;
       gap: 30px;
     }
 
     .nav-links a {
       font-size: 14px;
-      color: var(--starlight);
+      font-weight: var(--link-weight);
+      color: var(--color-link);
       text-decoration: none;
       background-image: linear-gradient(var(--ember), var(--ember));
       background-position: 0 52%;
@@ -97,9 +194,43 @@
       background-size: 100% 1.5px;
     }
 
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      position: relative;
+      top: 1px;
+      color: var(--color-link);
+      transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .theme-toggle:hover {
+      color: var(--ember);
+    }
+
+    .theme-toggle__icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .theme-toggle__icon--sun {
+      display: none;
+    }
+
+    :root[data-theme="light"] .theme-toggle__icon--sun {
+      display: block;
+    }
+
+    :root[data-theme="light"] .theme-toggle__icon--moon {
+      display: none;
+    }
+
     @media (max-width: 680px) {
       nav {
-        padding: 22px 16px;
+        padding: 22px 24px;
         flex-wrap: nowrap;
       }
 
@@ -115,38 +246,158 @@
       }
     }
 
+    @media (max-width: 400px) {
+      nav {
+        padding: 16px;
+        flex-wrap: wrap;
+        row-gap: 10px;
+      }
+
+      .nav-links {
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .logo,
+      .nav-links a {
+        font-size: 13px;
+      }
+    }
+
     /* ── PAGE CONTENT ── */
     .page-content {
       max-width: 720px;
       margin: 0 auto;
-      padding: 0 48px;
+      padding: 0 64px;
+    }
+
+    @media (max-width: 680px) {
+      .page-content {
+        padding: 0 24px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .page-content {
+        padding: 0 20px;
+      }
     }
 
     /* ── HERO ── */
     .hero {
-      padding: 68px 0 76px;
+      padding: 68px 0 0;
+    }
+
+    #about {
+      padding-top: 0;
     }
 
     .hero__name {
       font-size: 20px;
       font-weight: 700;
-      color: #fff;
+      color: var(--color-text);
       margin-bottom: 5px;
       letter-spacing: 0.01em;
     }
 
     .hero__role {
-      font-size: 20px;
-      font-weight: 300;
-      color: var(--digital-sand);
-      margin-bottom: 24px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-label);
+      margin-bottom: 56px;
     }
 
-    .hero__bio {
-      font-size: 18px;
+    /* ── PLAY ── */
+    .play {
+      padding-bottom: 72px;
+      scroll-margin-top: 80px;
+    }
+
+    .play-intro {
+      font-size: 16px;
       font-weight: 500;
       line-height: 1.7;
-      color: var(--silverlight);
+      color: var(--color-body);
+      margin-bottom: 28px;
+      max-width: 560px;
+    }
+
+    .play-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px 24px;
+      margin-top: 4px;
+    }
+
+    .play-card {
+      display: block;
+    }
+
+    .play-card__thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, var(--color-card-bg-alt) 0%, var(--color-card-bg) 65%);
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+      transition: box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  opacity 0.25s ease, background 0.3s ease;
+    }
+
+    .play-card__thumb::before {
+      content: '';
+      position: absolute;
+      top: -40%; right: -30%;
+      width: 70%;
+      height: 70%;
+      background: radial-gradient(circle, rgba(240, 134, 105, 0.22) 0%, transparent 70%);
+    }
+
+    .play-card:hover .play-card__thumb {
+      opacity: 0.9;
+      box-shadow: 0 8px 32px rgba(240, 134, 105, 0.2), 0 2px 8px rgba(240, 134, 105, 0.12);
+    }
+
+    .play-card__index {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 40px;
+      color: var(--color-ghost);
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .play-card__title {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--color-title);
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+
+    .play-card__meta {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-meta);
+      letter-spacing: 0.01em;
+    }
+
+    .play-note {
+      margin-top: 32px;
+      font-size: 13px;
+      color: var(--color-faint);
+    }
+
+    @media (max-width: 680px) {
+      .play-cards { grid-template-columns: 1fr; }
     }
 
     /* ── ABOUT ── */
@@ -159,7 +410,7 @@
     .section-label {
       font-size: 12px;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.88);
+      color: var(--color-label-strong);
       margin-bottom: 18px;
       letter-spacing: 0.02em;
     }
@@ -168,7 +419,7 @@
       font-size: 18px;
       font-weight: 500;
       line-height: 1.7;
-      color: var(--silverlight);
+      color: var(--color-body);
       margin-bottom: 18px;
     }
 
@@ -177,8 +428,8 @@
     }
 
     .about a {
-      color: var(--starlight);
-      font-weight: 500;
+      color: var(--color-link);
+      font-weight: var(--link-weight);
       text-decoration: none;
       background-image: linear-gradient(var(--ember), var(--ember));
       background-position: 0 52%;
@@ -200,10 +451,14 @@
     }
 
     .work-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 44px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 44px 24px;
       margin-top: 4px;
+    }
+
+    .work-cards .work-card:first-child {
+      grid-column: 1 / -1;
     }
 
     .work-card {
@@ -212,78 +467,147 @@
     }
 
     .work-card__thumb {
+      position: relative;
       width: 100%;
-      aspect-ratio: 3 / 2;
-      border-radius: 8px;
+      aspect-ratio: 4 / 3.4;
+      border-radius: 14px;
       overflow: hidden;
-      margin-bottom: 14px;
-      background: #21201e;
+      background: #EEEEEE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
       transition: box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                   opacity 0.25s ease;
     }
 
-    .work-card:hover .work-card__thumb {
-      opacity: 0.9;
-      box-shadow: 0 8px 32px rgba(240, 134, 105, 0.2), 0 2px 8px rgba(240, 134, 105, 0.12);
+    .work-card__pills {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 10px;
+      max-width: calc(100% - 32px);
     }
 
-    .work-card__thumb svg,
-    .work-card__thumb img {
+    .work-card__thumb--featured {
+      aspect-ratio: 16 / 9;
+    }
+
+    .work-card__thumb::before {
+      content: '';
+      position: absolute;
+      inset: -25%;
+      background:
+        radial-gradient(circle at 22% 28%, var(--sunlight) 0%, transparent 55%),
+        radial-gradient(circle at 78% 22%, var(--ember) 0%, transparent 52%),
+        radial-gradient(circle at 55% 82%, var(--digital-sand) 0%, transparent 58%);
+      filter: blur(50px);
+      opacity: 0.85;
+      animation: workGradientDrift 17s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    /* Optimizing GlobalWorkflow: Ember + Digital Sand only, positions flipped from card 1 */
+    .work-cards .work-card:nth-child(2) .work-card__thumb::before {
+      background:
+        radial-gradient(circle at 80% 78%, var(--ember) 0%, transparent 55%),
+        radial-gradient(circle at 18% 18%, var(--digital-sand) 0%, transparent 60%);
+      animation-delay: -9s;
+    }
+
+    /* Quadient University: Sage + Sunlight + Digital Sand, unique positions */
+    .work-cards .work-card:nth-child(3) .work-card__thumb::before {
+      background:
+        radial-gradient(circle at 78% 32%, var(--sage) 0%, transparent 52%),
+        radial-gradient(circle at 18% 78%, var(--sunlight) 0%, transparent 55%),
+        radial-gradient(circle at 55% 8%, var(--digital-sand) 0%, transparent 55%);
+      animation-delay: -4s;
+    }
+
+    @keyframes workGradientDrift {
+      0% { transform: translate(-3%, -2%) scale(1) rotate(0deg); }
+      50% { transform: translate(3%, 2%) scale(1.1) rotate(6deg); }
+      100% { transform: translate(-2%, 3%) scale(1.04) rotate(-5deg); }
+    }
+
+    .work-card__frost {
+      position: absolute;
+      inset: 6px;
+      z-index: 0;
+      border-radius: 14px;
+      background: rgba(241, 239, 235, 0.75);
+    }
+
+    .work-card__cycle {
+      position: relative;
+      z-index: 1;
+      width: 82%;
+      aspect-ratio: 16 / 9;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18), 0 4px 14px rgba(0, 0, 0, 0.1);
+    }
+
+    .work-card__cycle img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
-      display: block;
       object-fit: cover;
-      transition: transform 0.8s cubic-bezier(0.33, 0, 0.2, 1);
+      opacity: 0;
+      transition: opacity 0.6s ease;
     }
 
-    .work-card:hover .work-card__thumb img,
-    .work-card:hover .work-card__thumb svg {
-      transform: scale(1.04);
+    .work-card__cycle img.is-active {
+      opacity: 1;
     }
 
-    .work-card__title {
-      font-family: 'Frank Ruhl Libre', serif;
-      font-size: 21px;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.92);
-      margin-bottom: 5px;
-      line-height: 1.3;
-    }
-
-    .work-card__meta {
+    .work-card__pill {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      background: rgba(31, 31, 31, 0.65);
+      color: var(--silverlight);
       font-size: 14px;
-      font-weight: 500;
-      color: var(--starlight);
+      font-weight: 600;
       letter-spacing: 0.01em;
+      padding: 8px 22px;
+      border-radius: 999px;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+
+    .work-card:hover .work-card__thumb {
+      opacity: 0.94;
+      box-shadow: 0 8px 32px rgba(240, 134, 105, 0.25), 0 2px 8px rgba(240, 134, 105, 0.15);
+    }
+
+    @media (max-width: 680px) {
+      .work-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .work-card__thumb,
+      .work-card__thumb--featured {
+        aspect-ratio: 4 / 3.4;
+      }
+
+      .work-card__pill {
+        font-size: 14px;
+        padding: 7px 18px;
+      }
     }
 
     /* ── CTA / CONTACT ── */
     .cta {
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid var(--color-border);
       padding-top: 72px;
       padding-bottom: 100px;
-    }
-
-    .cta__heading {
-      font-family: 'Frank Ruhl Libre', serif;
-      font-size: 34px;
-      font-weight: 400;
-      color: var(--digital-sand);
-      line-height: 1.2;
-      margin-bottom: 20px;
-    }
-
-    .cta__desc {
-      font-size: 18px;
-      color: var(--silverlight);
-      line-height: 1.7;
-      margin-bottom: 10px;
-    }
-
-    .cta__location {
-      font-size: 16px;
-      color: var(--digital-sand);
-      margin-bottom: 44px;
     }
 
     .contact-block {
@@ -292,7 +616,7 @@
 
     .contact-block__label {
       font-size: 16px;
-      color: var(--silverlight);
+      color: var(--color-label);
       margin-bottom: 8px;
     }
 
@@ -307,7 +631,7 @@
       border: none;
       cursor: pointer;
       padding: 4px;
-      color: rgba(255, 255, 255, 0.3);
+      color: var(--color-icon-muted);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -367,7 +691,8 @@
 
     .contact-block a {
       font-size: 18px;
-      color: var(--starlight);
+      font-weight: var(--link-weight);
+      color: var(--color-link);
       text-decoration: none;
       background-image: linear-gradient(var(--ember), var(--ember));
       background-position: 0 52%;
@@ -391,7 +716,8 @@
 
     .social-list a {
       font-size: 18px;
-      color: var(--starlight);
+      font-weight: var(--link-weight);
+      color: var(--color-link);
       text-decoration: none;
       background-image: linear-gradient(var(--ember), var(--ember));
       background-position: 0 52%;
@@ -405,6 +731,37 @@
       color: var(--ember);
       background-size: 100% 1.5px;
     }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      display: flex;
+      justify-content: center;
+      padding: 24px 0 40px;
+    }
+
+    .footer-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-meta);
+    }
+
+    .footer-meta__location {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .footer-meta__location svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -413,8 +770,20 @@
     <a href="index.html" class="logo">mikemorales</a>
     <ul class="nav-links">
       <li><a href="#work">work</a></li>
+      <!-- <li><a href="#play">play</a></li> -->
       <li><a href="mmorales_resume_2026.pdf" target="_blank" rel="noopener noreferrer">resume</a></li>
-      <li><a href="#contact">say hello</a></li>
+      <li><a href="#contact">connect</a></li>
+      <li>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light theme" title="Toggle light / dark theme">
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </button>
+      </li>
     </ul>
   </nav>
 
@@ -424,7 +793,12 @@
     <section class="hero">
       <p class="hero__name">Mike Morales</p>
       <p class="hero__role">Senior Product Designer · Enterprise systems specialist</p>
-      <p class="hero__bio">I partner with product and engineering leaders to turn complex problems into clear, high-impact experiences. With 10+ years designing at scale, I bring both strategic clarity and craft precision that senior teams need to ship confidently</p>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <p>Currently, I'm at <a href="https://www.mckinsey.com" target="_blank" rel="noopener">McKinsey &amp; Co</a> as a Senior Product Designer.</p>
+      <p>Previously, I mentored Product Designers through <a href="https://careerfoundry.com/en/" target="_blank" rel="noopener">CareerFoundry</a>. I led design for the Business Process Automation platform Impress at <a href="https://www.quadient.com" target="_blank" rel="noopener">Quadient</a>. Before that, I was a building municipal websites with <a href="https://webhouse.cz" target="_blank" rel="noopener">WEBHOUSE</a> and commercial websites with <a href="https://www.kreatorium.cz" target="_blank" rel="noopener">Kreatorium</a>.</p>
     </section>
 
     <!-- SELECTED WORK -->
@@ -434,46 +808,122 @@
 
         <!-- Card 1: Process Owner -->
         <a class="work-card" href="process-owner.html">
-          <div class="work-card__thumb">
-            <img src="images/Process Owner Cover.png" alt="Process Owner · Record Presence">
+          <div class="work-card__thumb work-card__thumb--featured">
+            <div class="work-card__frost"></div>
+            <div class="work-card__cycle">
+              <img class="is-active" src="images/Process Owner Cover.png" alt="Process Owner · Record Presence — cover">
+              <img src="images/1a.png" alt="Approach — initial direction">
+              <img src="images/2a.png" alt="Pivot 1 — presence in list view">
+              <img src="images/3a.png" alt="Pivot 2 — process owner field">
+              <img src="images/4a.png" alt="Solution — final design">
+              <img src="images/process-owner-hover.gif" alt="Hovering over a truncated Viewers list reveals the full names in a tooltip">
+            </div>
+            <div class="work-card__pills">
+              <span class="work-card__pill">Process Owner · Record Presence</span>
+              <span class="work-card__pill">McKinsey &amp; Co</span>
+            </div>
           </div>
-          <p class="work-card__title">Process Owner · Record Presence</p>
-          <p class="work-card__meta">McKinsey &amp; Company · VG&amp;M GlobalWorkflow</p>
         </a>
 
         <!-- Card 2: GlobalWorkflow -->
         <a class="work-card" href="optimizing-globalworkflow.html">
           <div class="work-card__thumb">
-            <img src="images/optimizing-gwf-cover.png" alt="Optimizing GlobalWorkflow cover">
+            <div class="work-card__frost"></div>
+            <div class="work-card__cycle">
+              <img class="is-active" src="images/optimizing-gwf-cover.png" alt="Optimizing GlobalWorkflow — cover">
+              <img src="images/so-initial1.png" alt="Service offerings — initial state">
+              <img src="images/so-initial.png" alt="Service offerings — approach exploration">
+              <img src="images/compose-activity.png" alt="Impact — request processing improvement">
+            </div>
+            <div class="work-card__pills">
+              <span class="work-card__pill">Optimizing GlobalWorkflow</span>
+              <span class="work-card__pill">McKinsey &amp; Co</span>
+            </div>
           </div>
-          <p class="work-card__title">Optimizing GlobalWorkflow</p>
-          <p class="work-card__meta">McKinsey &amp; Company · CSM</p>
         </a>
 
         <!-- Card 3: Quadient University -->
         <a class="work-card" href="quadient-university.html">
           <div class="work-card__thumb">
-            <img src="images/quadient-cover.png" alt="Redesigning Quadient University cover">
+            <div class="work-card__frost"></div>
+            <div class="work-card__cycle">
+              <img class="is-active" src="images/quadient-cover.png" alt="Redesigning Quadient University cover">
+              <img src="images/qu-sitemap.png" alt="Quadient University revised sitemap">
+              <img src="images/qu-profile-before.png" alt="Quadient University profile page exploration">
+              <img src="images/qu-profile-after.png" alt="Quadient University profile page revised mockup">
+              <img src="images/qu-exchange-detail.png" alt="Quadient University Exchange detail wireframe">
+              <img src="images/qu-exchange-marketplace.png" alt="Quadient University Exchange marketplace landing page">
+              <img src="images/Video_Page.png" alt="Quadient University video section">
+              <img src="images/giphy-13.gif" alt="Quadient University video section in action">
+            </div>
+            <div class="work-card__pills">
+              <span class="work-card__pill">Quadient University Redesign</span>
+              <span class="work-card__pill">Quadient</span>
+            </div>
           </div>
-          <p class="work-card__title">Redesigning Quadient University</p>
-          <p class="work-card__meta">Quadient · Liferay Platform</p>
         </a>
 
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section class="about" id="about">
-      <p class="section-label">About</p>
-      <p>Currently, I am working at <a href="https://www.mckinsey.com" target="_blank" rel="noopener">McKinsey &amp; Company</a> as a Senior Product Designer.</p>
-      <p>Previously, I mentored Product Designers through <a href="https://careerfoundry.com/en/" target="_blank" rel="noopener">CareerFoundry</a>. I led design for the Business Process Automation platform Impress at <a href="https://www.quadient.com" target="_blank" rel="noopener">Quadient</a>. Before that, I was a building municipal websites with <a href="https://webhouse.cz" target="_blank" rel="noopener">WEBHOUSE</a> and commercial websites with <a href="https://www.kreatorium.cz" target="_blank" rel="noopener">Kreatorium</a>.</p>
+    <!-- PLAY (hidden for now — revisit later)
+    <section class="play" id="play">
+      <p class="section-label">Play</p>
+      <p class="play-intro">Self-directed concepts and visual explorations — no client, no constraints, just a chance to push interface craft and my own point of view.</p>
+      <div class="play-cards">
+
+        <div class="play-card">
+          <div class="play-card__thumb">
+            <span class="play-card__index">01</span>
+          </div>
+          <p class="play-card__title">Adaptive Dashboard</p>
+          <p class="play-card__meta">Data viz concept</p>
+        </div>
+
+        <div class="play-card">
+          <div class="play-card__thumb">
+            <span class="play-card__index">02</span>
+          </div>
+          <p class="play-card__title">Mobile Banking Redesign</p>
+          <p class="play-card__meta">Fintech UI concept</p>
+        </div>
+
+        <div class="play-card">
+          <div class="play-card__thumb">
+            <span class="play-card__index">03</span>
+          </div>
+          <p class="play-card__title">AI Assistant Interface</p>
+          <p class="play-card__meta">Conversational UI concept</p>
+        </div>
+
+        <div class="play-card">
+          <div class="play-card__thumb">
+            <span class="play-card__index">04</span>
+          </div>
+          <p class="play-card__title">Design System Playground</p>
+          <p class="play-card__meta">Component exploration</p>
+        </div>
+
+        <div class="play-card">
+          <div class="play-card__thumb">
+            <span class="play-card__index">05</span>
+          </div>
+          <p class="play-card__title">Onboarding Motion Study</p>
+          <p class="play-card__meta">Interaction &amp; motion concept</p>
+        </div>
+
+      </div>
+      <p class="play-note">Placeholder visuals — swap in real explorations whenever you're ready.</p>
+    </section>
+    -->
+
+    <!-- INTRO -->
+    <section class="about">
+      <p>I partner with product and engineering leaders to turn complex problems into clear, high-impact experiences. With 10+ years designing at scale, I bring both strategic clarity and craft precision that senior teams need to ship confidently</p>
     </section>
 
     <!-- CTA / CONTACT -->
     <section class="cta" id="contact">
-      <h2 class="cta__heading">Let's build something that matters</h2>
-      <p class="cta__desc">I'm open to roles where I can operate at both the strategic and craft level, ideally in SaaS. If you're building something ambitious, let's talk.</p>
-      <p class="cta__location">Based in Czechia · Open to remote roles</p>
 
       <div class="contact-block">
         <p class="contact-block__label">Get in touch:</p>
@@ -498,6 +948,20 @@
         </div>
       </div>
     </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-meta">
+        <span class="footer-meta__location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          Prague
+        </span>
+        <span class="footer-meta__datetime" id="footer-datetime"></span>
+      </div>
+    </footer>
 
   </div>
 
@@ -525,6 +989,83 @@
         setTimeout(() => copyBtn.classList.remove('copied'), 2000);
       });
     });
+
+    // Light / dark theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)');
+
+    function getTheme() {
+      return document.documentElement.getAttribute('data-theme') || 'dark';
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      themeToggle.setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+    }
+
+    setTheme(getTheme());
+
+    themeToggle.addEventListener('click', () => {
+      const next = getTheme() === 'light' ? 'dark' : 'light';
+      setTheme(next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+
+    // Follow the system setting live, unless the visitor has manually chosen a theme
+    systemPrefersLight.addEventListener('change', (e) => {
+      let manual = null;
+      try { manual = localStorage.getItem('theme'); } catch (err) {}
+      if (!manual) {
+        setTheme(e.matches ? 'light' : 'dark');
+      }
+    });
+
+    // Live Prague date & time (e.g. "Sunday, September 6, 2026 16:35 CET")
+    const footerDatetime = document.getElementById('footer-datetime');
+    const pragueFormatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Europe/Prague',
+      weekday: 'short',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+      timeZoneName: 'shortOffset'
+    });
+
+    function updatePragueTime() {
+      const parts = pragueFormatter.formatToParts(new Date());
+      const get = (type) => (parts.find((p) => p.type === type) || {}).value || '';
+      const offset = get('timeZoneName'); // e.g. "GMT+1" or "GMT+2"
+      const abbr = offset.indexOf('+2') !== -1 ? 'CEST' : 'CET';
+      footerDatetime.textContent =
+        get('weekday') + ', ' + get('month') + ' ' + get('day') + ', ' + get('year') +
+        ' ' + get('hour') + ':' + get('minute') + ' ' + abbr;
+    }
+
+    updatePragueTime();
+    setInterval(updatePragueTime, 30000);
+
+    // Selected work — cycle through each case study's images
+    (function () {
+      const INTERVAL = 2000; // ms per image
+      const STAGGER = 350;   // ms offset between cards so they don't sync up
+
+      document.querySelectorAll('.work-card__cycle').forEach((cycle, cardIndex) => {
+        const imgs = cycle.querySelectorAll('img');
+        if (imgs.length < 2) return;
+        let current = 0;
+
+        setTimeout(() => {
+          setInterval(() => {
+            imgs[current].classList.remove('is-active');
+            current = (current + 1) % imgs.length;
+            imgs[current].classList.add('is-active');
+          }, INTERVAL);
+        }, cardIndex * STAGGER);
+      });
+    })();
   </script>
 
 </body>
