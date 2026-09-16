@@ -553,6 +553,13 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18), 0 4px 14px rgba(0, 0, 0, 0.1);
     }
 
+    /* The two smaller cards sit in a squarer tile (4/3.4) than the
+       featured card (16/9) — give their image a taller ratio so it
+       doesn't leave large empty gaps above/below. */
+    .work-cards .work-card:not(:first-child) .work-card__cycle {
+      aspect-ratio: 4 / 3;
+    }
+
     .work-card__cycle img {
       position: absolute;
       inset: 0;
