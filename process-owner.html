@@ -28,10 +28,11 @@
       --charcoal: #1F1F1F;
       --black-hole: #1B1918;
       --stone: #706D6C;
+      --gravel: #6B6B68;
 
       /* semantic theme tokens (dark, default) */
       --color-bg: var(--black-hole);
-      --color-text: #fff;
+      --color-text: var(--silverlight);
       --color-body: #858482;
       --color-link: var(--digital-sand);
       --color-label: #858482;
@@ -95,7 +96,7 @@
 
     :root[data-theme="dark"] {
       --color-bg: var(--black-hole);
-      --color-text: #fff;
+      --color-text: var(--silverlight);
       --color-body: #858482;
       --color-link: var(--digital-sand);
       --color-label: #858482;
@@ -311,9 +312,9 @@
       font-family: 'Inter', sans-serif;
       font-size: 32px;
       font-weight: 600;
-      color: var(--color-text);
+      color: var(--gravel);
       line-height: 1.15;
-      margin-bottom: 30px;
+      margin-bottom: 16px;
     }
 
     .cs-hero-image {
@@ -326,7 +327,7 @@
 
     /* ── CASE STUDY BODY ── */
     .cs-body {
-      padding: 52px 0 80px;
+      padding: 40px 0 80px;
     }
 
     .cs-main {
@@ -346,7 +347,7 @@
     .cs-section-title {
       font-size: 16px;
       font-weight: 600;
-      color: var(--color-link);
+      color: var(--gravel);
       margin-bottom: 20px;
       letter-spacing: 0.01em;
     }
@@ -354,7 +355,7 @@
     .cs-section p {
       font-size: 16px;
       line-height: 1.8;
-      color: var(--color-body);
+      color: var(--color-text);
       margin-bottom: 14px;
     }
 
@@ -370,15 +371,13 @@
     }
 
     .overview-item__label {
-      font-size: 16px;
       font-weight: 600;
-      color: var(--color-link);
-      margin-bottom: 3px;
+      color: var(--gravel);
     }
 
-    .overview-item__value {
+    .overview-item__row {
       font-size: 16px;
-      color: var(--color-body);
+      color: var(--color-text);
       line-height: 1.6;
     }
 
@@ -390,7 +389,7 @@
     .cs-pivot-title {
       font-size: 16px;
       font-weight: 600;
-      color: var(--color-link);
+      color: var(--gravel);
       margin-bottom: 16px;
     }
 
@@ -582,16 +581,13 @@
           <p class="cs-section-title">Overview</p>
           <div class="overview-grid">
             <div class="overview-item">
-              <p class="overview-item__label">Role</p>
-              <p class="overview-item__value">Lead/Sole Product Designer &amp; Researcher</p>
+              <p class="overview-item__row"><span class="overview-item__label">Role</span> · Lead/Sole Product Designer &amp; Researcher</p>
             </div>
             <div class="overview-item">
-              <p class="overview-item__label">Team</p>
-              <p class="overview-item__value">1 PM, 1 Tech Lead, 4 Developers</p>
+              <p class="overview-item__row"><span class="overview-item__label">Team</span> · 1 PM, 1 Tech Lead, 4 Developers</p>
             </div>
             <div class="overview-item">
-              <p class="overview-item__label">Timeline</p>
-              <p class="overview-item__value">4 weeks | 2 sprints</p>
+              <p class="overview-item__row"><span class="overview-item__label">Timeline</span> · 4 weeks | 2 sprints</p>
             </div>
           </div>
         </section>

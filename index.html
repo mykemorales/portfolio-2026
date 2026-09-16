@@ -1049,20 +1049,21 @@
 
     // Selected work — cycle through each case study's images
     (function () {
-      const INTERVAL = 2000; // ms per image
-      const STAGGER = 350;   // ms offset between cards so they don't sync up
+      const INTERVALS = [1800, 2300, 2750]; // distinct pace per card so they drift out of sync
+      const STAGGER = 350;   // ms offset before each card's cycle starts
 
       document.querySelectorAll('.work-card__cycle').forEach((cycle, cardIndex) => {
         const imgs = cycle.querySelectorAll('img');
         if (imgs.length < 2) return;
         let current = 0;
+        const interval = INTERVALS[cardIndex % INTERVALS.length];
 
         setTimeout(() => {
           setInterval(() => {
             imgs[current].classList.remove('is-active');
             current = (current + 1) % imgs.length;
             imgs[current].classList.add('is-active');
-          }, INTERVAL);
+          }, interval);
         }, cardIndex * STAGGER);
       });
     })();
