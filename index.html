@@ -577,6 +577,26 @@
       transform: scale(1);
     }
 
+    /* Process Owner card: the 4 in-product screenshots (1a–4a) carry a
+       light canvas margin baked into the source images, which read as
+       stray white framing at the box's 16:9 crop. Scale them up a bit
+       more than the default so that margin gets cropped out of view.
+       The cover image and the custom hover GIF are already full-bleed,
+       so they're left at the default scale. */
+    .work-cards .work-card:first-child .work-card__cycle img:nth-child(2),
+    .work-cards .work-card:first-child .work-card__cycle img:nth-child(3),
+    .work-cards .work-card:first-child .work-card__cycle img:nth-child(4),
+    .work-cards .work-card:first-child .work-card__cycle img:nth-child(5) {
+      transform: scale(1.235);
+    }
+
+    .work-cards .work-card:first-child .work-card__cycle img:nth-child(2).is-active,
+    .work-cards .work-card:first-child .work-card__cycle img:nth-child(3).is-active,
+    .work-cards .work-card:first-child .work-card__cycle img:nth-child(4).is-active,
+    .work-cards .work-card:first-child .work-card__cycle img:nth-child(5).is-active {
+      transform: scale(1.18);
+    }
+
     .work-card__pill {
       position: relative;
       z-index: 1;
