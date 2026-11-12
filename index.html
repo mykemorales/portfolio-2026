@@ -12,7 +12,7 @@
       } catch (e) {}
     })();
   </script>
-  <title>Mike Morales — Senior Product Designer</title>
+  <title>Mike Morales — Product Design Engineer</title>
   <link rel="icon" type="image/png" href="favicon.png?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -471,8 +471,9 @@
       min-width: 148px;
       padding: 16px 20px 12px;
       border-radius: 12px;
-      background: var(--color-card-bg);
-      border: 1px solid var(--color-border);
+      /* always dark, in both themes */
+      background: var(--black-hole);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.12);
       pointer-events: none;
       /* origin-aware: grows out of the word below it */
@@ -492,8 +493,8 @@
       width: 10px;
       height: 10px;
       background: inherit;
-      border-right: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       transform: translate(-50%, -50%) rotate(45deg);
     }
 
@@ -503,23 +504,12 @@
       width: auto;
     }
 
-    /* logo artwork is cream (made for dark backgrounds) — render it charcoal in light mode */
-    :root[data-theme="light"] .intraflect__logo {
-      filter: brightness(0) opacity(0.88);
-    }
-
-    @media (prefers-color-scheme: light) {
-      :root:not([data-theme]) .intraflect__logo {
-        filter: brightness(0) opacity(0.88);
-      }
-    }
-
     .intraflect__wordmark {
       display: none;
       font-size: 17px;
       font-weight: 700;
       letter-spacing: -0.01em;
-      color: var(--color-title);
+      color: var(--digital-sand);
     }
 
     .intraflect__tip.no-logo .intraflect__logo { display: none; }
@@ -586,6 +576,21 @@
     .project-item__name {
       font-weight: var(--link-weight);
       color: var(--color-link);
+    }
+
+    a.project-item__name {
+      text-decoration: none;
+      background-image: linear-gradient(var(--ember), var(--ember));
+      background-position: 0 52%;
+      background-repeat: no-repeat;
+      background-size: 0% 1.5px;
+      transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  background-size 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    a.project-item__name:hover {
+      color: var(--ember);
+      background-size: 100% 1.5px;
     }
 
     .project-item__desc {
@@ -950,7 +955,7 @@
     <!-- HERO -->
     <section class="hero">
       <p class="hero__name">Mike Morales</p>
-      <p class="hero__role">Senior Product Designer · Enterprise systems specialist</p>
+      <p class="hero__role">Product Design Engineer · Enterprise systems specialist</p>
     </section>
 
     <!-- ABOUT -->
@@ -1029,7 +1034,7 @@
       <p class="section-label">Projects</p>
       <ul class="projects-list">
         <li class="project-item">
-          <span class="project-item__name">TerraDial</span>
+          <a class="project-item__name" href="https://terradial.net" target="_blank" rel="noopener">TerraDial</a>
           <span class="project-item__desc">The globe as a radio dial, give it a spin.</span>
         </li>
       </ul>
