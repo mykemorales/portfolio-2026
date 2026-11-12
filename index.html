@@ -444,6 +444,154 @@
       background-size: 100% 1.5px;
     }
 
+    /* ── INTRAFLECT TOOLTIP ── */
+    .intraflect {
+      position: relative;
+      display: inline-block;
+      font-weight: 700;
+      color: var(--color-link);
+      cursor: default;
+      outline: none;
+    }
+
+    .intraflect:focus-visible {
+      border-radius: 4px;
+      box-shadow: 0 0 0 2px var(--ember);
+    }
+
+    .intraflect__tip {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 148px;
+      padding: 16px 20px 12px;
+      border-radius: 12px;
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.12);
+      pointer-events: none;
+      /* origin-aware: grows out of the word below it */
+      transform-origin: 50% calc(100% + 12px);
+      transform: translateX(-50%) translateY(4px) scale(0.94);
+      opacity: 0;
+      /* exit: fast, no bounce */
+      transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1),
+                  opacity 120ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .intraflect__tip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background: inherit;
+      border-right: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .intraflect__logo {
+      display: block;
+      height: 24px;
+      width: auto;
+    }
+
+    /* logo artwork is cream (made for dark backgrounds) — render it charcoal in light mode */
+    :root[data-theme="light"] .intraflect__logo {
+      filter: brightness(0) opacity(0.88);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme]) .intraflect__logo {
+        filter: brightness(0) opacity(0.88);
+      }
+    }
+
+    .intraflect__wordmark {
+      display: none;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--color-title);
+    }
+
+    .intraflect__tip.no-logo .intraflect__logo { display: none; }
+    .intraflect__tip.no-logo .intraflect__wordmark { display: block; }
+
+    .intraflect__soon {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      color: var(--ember);
+    }
+
+    /* enter: short delay, subtle overshoot for the bounce */
+    .intraflect:focus-visible .intraflect__tip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+      transition: transform 240ms cubic-bezier(0.34, 1.36, 0.64, 1),
+                  opacity 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .intraflect:hover .intraflect__tip {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+        transition: transform 240ms cubic-bezier(0.34, 1.36, 0.64, 1) 60ms,
+                    opacity 160ms cubic-bezier(0.23, 1, 0.32, 1) 60ms;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .intraflect__tip,
+      .intraflect:hover .intraflect__tip,
+      .intraflect:focus-visible .intraflect__tip {
+        transform: translateX(-50%);
+        transition: opacity 150ms ease;
+      }
+    }
+
+    /* ── PROJECTS ── */
+    .projects {
+      padding-bottom: 72px;
+      scroll-margin-top: 80px;
+    }
+
+    .projects-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .project-item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 4px 14px;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.7;
+    }
+
+    .project-item__name {
+      font-weight: var(--link-weight);
+      color: var(--color-link);
+    }
+
+    .project-item__desc {
+      color: var(--color-body);
+    }
+
     /* ── SELECTED WORK ── */
     .work {
       padding-bottom: 72px;
@@ -807,8 +955,13 @@
 
     <!-- ABOUT -->
     <section class="about" id="about">
+<<<<<<< HEAD
+      <p>Currently building <span class="intraflect" tabindex="0" aria-describedby="intraflect-tip">intraflect<span class="intraflect__tip" id="intraflect-tip" role="tooltip"><img class="intraflect__logo" src="images/intraflect-logo.png" alt="intraflect" onerror="this.parentNode.classList.add('no-logo')"><span class="intraflect__wordmark">intraflect</span><span class="intraflect__soon">coming soon</span></span></span>.</p>
+      <p>Previously, I was a Senior Product Designer at <a href="https://www.mckinsey.com" target="_blank" rel="noopener">McKinsey &amp; Co</a>. I mentored Product Designers through <a href="https://careerfoundry.com/en/" target="_blank" rel="noopener">CareerFoundry</a>. I led design for the Business Process Automation platform Impress at <a href="https://www.quadient.com" target="_blank" rel="noopener">Quadient</a>. Before that, I was building municipal websites with <a href="https://webhouse.cz" target="_blank" rel="noopener">WEBHOUSE</a> and commercial websites with <a href="https://www.kreatorium.cz" target="_blank" rel="noopener">Kreatorium</a>.</p>
+=======
       <p>Currently, I'm at <a href="https://www.mckinsey.com" target="_blank" rel="noopener">McKinsey &amp; Co</a> as a Senior Product Designer.</p>
       <p>Previously, I mentored Product Designers through <a href="https://careerfoundry.com/en/" target="_blank" rel="noopener">CareerFoundry</a>. I led design for the Business Process Automation platform Impress at <a href="https://www.quadient.com" target="_blank" rel="noopener">Quadient</a>. Before that, I was building municipal websites with <a href="https://webhouse.cz" target="_blank" rel="noopener">WEBHOUSE</a> and commercial websites with <a href="https://www.kreatorium.cz" target="_blank" rel="noopener">Kreatorium</a>.</p>
+>>>>>>> 2e922e1143f68b81c679bc8ab1d26c946ef74c15
     </section>
 
     <!-- SELECTED WORK -->
@@ -874,6 +1027,17 @@
         </a>
 
       </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="projects" id="projects">
+      <p class="section-label">Projects</p>
+      <ul class="projects-list">
+        <li class="project-item">
+          <span class="project-item__name">TerraDial</span>
+          <span class="project-item__desc">The globe as a radio dial, give it a spin.</span>
+        </li>
+      </ul>
     </section>
 
     <!-- PLAY (hidden for now — revisit later)
